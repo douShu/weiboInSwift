@@ -18,7 +18,7 @@ class MainViewController: UITabBarController {
     }
 
     /**
-    添加加号按钮
+    设置加号按钮
     */
     override func viewDidLayoutSubviews() {
         
@@ -50,7 +50,7 @@ class MainViewController: UITabBarController {
     - parameter title  : 标题
     - parameter imgName: 图片名字
     */
-    func addChildViewController(vc: UIViewController, title: String, imgName: String) {
+    private func addChildViewController(vc: UIViewController, title: String, imgName: String) {
         
         // 创建nav控制器
         let nav = UINavigationController(rootViewController: vc)
