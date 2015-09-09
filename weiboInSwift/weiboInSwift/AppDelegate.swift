@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        // 设置nav和tab控制器的属性
+        setupItem()
+        
         // 创建window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
@@ -28,6 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         return true
+    }
+    
+    // 设置nav和tab控制器的属性
+    func setupItem() {
+        
+        UINavigationBar.appearance().tintColor = UIColor.orangeColor()
+        
+        UITabBar.appearance().tintColor = UIColor.orangeColor()
     }
 }
 

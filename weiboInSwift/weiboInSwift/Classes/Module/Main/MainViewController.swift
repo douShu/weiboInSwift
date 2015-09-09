@@ -59,8 +59,6 @@ class MainViewController: UITabBarController {
         vc.title = title
         vc.tabBarItem.image = UIImage(named: imgName)
         
-        tabBar.tintColor = UIColor.orangeColor()
-        
         addChildViewController(nav)
     }
     
