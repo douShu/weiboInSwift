@@ -11,7 +11,12 @@ import SVProgressHUD
 
 class oauthViewController: UIViewController, UIWebViewDelegate {
 
+    
+    // MARK: /**************************** 属性 ****************************/
     private let webView: UIWebView = UIWebView()
+    
+    
+    // MARK: /**************************** 初始化函数 ****************************/
     override func loadView() {
     
         view = webView
@@ -28,13 +33,8 @@ class oauthViewController: UIViewController, UIWebViewDelegate {
         webView.loadRequest(NSURLRequest(URL: NetworkTool.sharedNetworkTool.oauthURL()))
     }
     
-    // MARK:  监听关闭item
-    func close() {
     
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    // MARK:  webView的代理方法
+    // MARK: /**************************** webView的代理方法 ****************************/
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
        
         let stringURL = request.URL!.absoluteString
@@ -64,47 +64,69 @@ class oauthViewController: UIViewController, UIWebViewDelegate {
         return false
     }
     
+    /// 拿到授权
     private func loadToken(code: String) {
     
         NetworkTool.sharedNetworkTool.loadToken(code) { (result, error) -> () in
             
             if error != nil || result == nil {
                 
-                // 提示用户
-                SVProgressHUD.showInfoWithStatus("您的网络不给力")
-                
-                // 延迟一秒
-                let when = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC))
-                
-                dispatch_after(when, dispatch_get_main_queue(), { () -> Void in
-                    
-                    self.close()
-                })
-                
+                /// 错误处理
+                self.handleNetError()
                 return
             }
             
             print("即将拿到token")
             
             /// 字典转模型
-            let account = UserAccount(dict: result!)
-            /// 归档: 用户信息
-            account.saveUserAccount()
-            /// 加载用户信息
-            NetworkTool.sharedNetworkTool.loadUserInfo({ (result, error) -> () in
+            UserAccount(dict: result!).loadUserInfoThenSave({ (error) -> () in
                 
-                print(result)
+                // 测试 "错误"
+                // let error: NSError? = NSError(domain: "123", code: -1, userInfo: nil)
+                
+                if error != nil {
+                
+                    self.handleNetError()
+                    return
+                }
+                
+                print("数据保存OK")
+                NSNotificationCenter.defaultCenter().postNotificationName(DSUIWindowDidChangeRootControllerNotification, object: !isMainVC)
             })
         }
     }
     
+    /// 错误处理
+    private func handleNetError() {
+        
+        // 提示用户
+        SVProgressHUD.showInfoWithStatus("您的网络不给力")
+        
+        // 延迟一秒
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC))
+        
+        dispatch_after(when, dispatch_get_main_queue(), { () -> Void in
+            
+            self.close()
+        })
+    }
+    
+    /// 开始加载
     func webViewDidStartLoad(webView: UIWebView) {
         
         SVProgressHUD.show()
     }
-    
+    /// 结束加载
     func webViewDidFinishLoad(webView: UIWebView) {
         
         SVProgressHUD.dismiss()
+    }
+    
+    
+    
+    // MARK: /**************************** 监听关闭item ****************************/
+    func close() {
+        
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

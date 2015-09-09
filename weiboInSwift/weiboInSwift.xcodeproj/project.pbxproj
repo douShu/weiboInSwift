@@ -17,9 +17,11 @@
 		DB1E48401B9C19A70030E014 /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1E483F1B9C19A70030E014 /* DiscoverTableViewController.swift */; };
 		DB1E48421B9C19B50030E014 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1E48411B9C19B50030E014 /* ProfileTableViewController.swift */; };
 		DB1E48441B9C301E0030E014 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1E48431B9C301E0030E014 /* BaseTableViewController.swift */; };
+		DB608BDE1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */; };
 		DB7D2E931B9DA1C70009556D /* VisitLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7D2E921B9DA1C70009556D /* VisitLoginView.swift */; };
 		DBAEFF321B9C13D700C471E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAEFF311B9C13D700C471E4 /* AppDelegate.swift */; };
 		DBAEFF391B9C13D700C471E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBAEFF381B9C13D700C471E4 /* Assets.xcassets */; };
+		DBB8103C1BA002E800EBB0FD /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB8103B1BA002E800EBB0FD /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,11 +36,13 @@
 		DB1E483F1B9C19A70030E014 /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		DB1E48411B9C19B50030E014 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		DB1E48431B9C301E0030E014 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
+		DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewfeatureCollectionViewController.swift; sourceTree = "<group>"; };
 		DB7D2E921B9DA1C70009556D /* VisitLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitLoginView.swift; sourceTree = "<group>"; };
 		DBAEFF2E1B9C13D700C471E4 /* weiboInSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = weiboInSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBAEFF311B9C13D700C471E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBAEFF381B9C13D700C471E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBAEFF3D1B9C13D700C471E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DBB8103B1BA002E800EBB0FD /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		DC0FBCB9C1FEC6DDA7EC0D83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +105,7 @@
 		DB1E482D1B9C17B90030E014 /* Module(功能模块) */ = {
 			isa = PBXGroup;
 			children = (
+				DBB8103A1BA002B000EBB0FD /* NewFeature(新特性&欢迎) */,
 				DB09CF291B9DE84000027BFE /* OAuth(授权) */,
 				DB1E48361B9C19480030E014 /* Main */,
 				DB1E48351B9C19480030E014 /* Home(首页) */,
@@ -184,12 +189,21 @@
 		DBAEFF301B9C13D700C471E4 /* weiboInSwift */ = {
 			isa = PBXGroup;
 			children = (
-				DB1E482B1B9C17B90030E014 /* Classes */,
 				DBAEFF311B9C13D700C471E4 /* AppDelegate.swift */,
+				DB1E482B1B9C17B90030E014 /* Classes */,
 				DBAEFF381B9C13D700C471E4 /* Assets.xcassets */,
 				DBAEFF3D1B9C13D700C471E4 /* Info.plist */,
 			);
 			path = weiboInSwift;
+			sourceTree = "<group>";
+		};
+		DBB8103A1BA002B000EBB0FD /* NewFeature(新特性&欢迎) */ = {
+			isa = PBXGroup;
+			children = (
+				DBB8103B1BA002E800EBB0FD /* WelcomeViewController.swift */,
+				DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */,
+			);
+			path = "NewFeature(新特性&欢迎)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,9 +331,11 @@
 				DBAEFF321B9C13D700C471E4 /* AppDelegate.swift in Sources */,
 				DB09CF2F1B9E00D200027BFE /* UserAccount.swift in Sources */,
 				DB09CF2D1B9DEBB900027BFE /* NetworkTool.swift in Sources */,
+				DB608BDE1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift in Sources */,
 				DB1E48441B9C301E0030E014 /* BaseTableViewController.swift in Sources */,
 				DB1E483E1B9C19990030E014 /* MessageTableViewController.swift in Sources */,
 				DB09CF2B1B9DE86600027BFE /* oauthViewController.swift in Sources */,
+				DBB8103C1BA002E800EBB0FD /* WelcomeViewController.swift in Sources */,
 				DB1E48401B9C19A70030E014 /* DiscoverTableViewController.swift in Sources */,
 				DB1E483A1B9C196A0030E014 /* MainViewController.swift in Sources */,
 			);

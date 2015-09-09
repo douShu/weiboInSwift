@@ -10,14 +10,21 @@ import UIKit
 
 class BaseTableViewController: UITableViewController, VisitLoginViewDelegate {
 
-    var userLogin: Bool = false
+    var userLogin: Bool?
     
     // 访客视图
     var visitLoginView: VisitLoginView?
     
     override func loadView() {
         
-        userLogin ? super.loadView() : setupLoginView()
+        userLogin = userLoginWeibo()
+        
+        userLogin == true ? super.loadView() : setupLoginView()
+    }
+    
+    private func userLoginWeibo() -> Bool {
+        
+        return UserAccount.loadUserAccount() != nil
     }
     
     // 设置登录视图

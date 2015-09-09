@@ -34,6 +34,26 @@ class NetworkTool: AFHTTPSessionManager {
     }()
     
     
+    // MARK: /**************************** 加载用户信息 ****************************/
+    func loadUserInfo(finished: DSNetFinishedCallBack) {
+        
+        // 判断access_token是否存在
+        let token = UserAccount.loadUserAccount()?.access_token
+        let uid = UserAccount.loadUserAccount()?.uid
+        
+        if token == nil {
+            
+            // TODO: 错误处理
+            return
+        }
+        
+        let URLString = "2/users/show.json"
+        let param: [String : AnyObject] = ["access_token": token!, "uid": uid!]
+        
+        requestGET(URLString, parameters: param, finished: finished)
+    }
+    
+    
     // MARK: /**************************** 授权函数 ****************************/
     // 授权地址
     func oauthURL() -> NSURL {
@@ -63,26 +83,6 @@ class NetworkTool: AFHTTPSessionManager {
                 
                 finished(result: nil, error: error)
         }
-    }
-    
-    
-    // MARK: /**************************** 加载用户信息 ****************************/
-    func loadUserInfo(finished: DSNetFinishedCallBack) {
-        
-        // 判断access_token是否存在
-        let token = UserAccount.loadUserAccount()?.access_token
-        let uid = UserAccount.loadUserAccount()?.uid
-        
-        if token == nil {
-        
-            // TODO: 错误处理
-            return
-        }
-    
-        let URLString = "2/users/show.json"
-        let param: [String : AnyObject] = ["access_token": token!, "uid": uid!]
-        
-        requestGET(URLString, parameters: param, finished: finished)
     }
     
     
