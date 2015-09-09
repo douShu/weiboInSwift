@@ -50,6 +50,8 @@ class UserAccount: NSObject, NSCoding {
             userAccount = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount
         }
         
+        print(userAccount)
+        
         /// 判断用户信息是否过期
         if let date = userAccount?.expiresDate where date.compare(NSDate()) == NSComparisonResult.OrderedAscending {
         
@@ -69,6 +71,8 @@ class UserAccount: NSObject, NSCoding {
         
         // 保存token等数据
         saveUserAccount()
+        
+        UserAccount.userAccount = self
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
@@ -77,7 +81,7 @@ class UserAccount: NSObject, NSCoding {
     // 描述对象
     override var description: String {
     
-        let properties = ["access_token", "expires_in", "uid"]
+        let properties = ["access_token", "avatar_large", "uid", "expires_in"]
         
         return "\(dictionaryWithValuesForKeys(properties))"
     }
@@ -96,8 +100,9 @@ class UserAccount: NSObject, NSCoding {
             }
             
             // 存储用户信息
-            self.name = result!["name"] as? String
-            self.avatar_large = result!["avatar_large"] as? String
+            UserAccount.userAccount!.name = result!["name"] as? String
+            UserAccount.userAccount!.avatar_large = result!["avatar_large"] as? String
+            
             self.saveUserAccount()
             
             finished(error: nil)

@@ -92,6 +92,9 @@ class oauthViewController: UIViewController, UIWebViewDelegate {
                 
                 print("数据保存OK")
                 NSNotificationCenter.defaultCenter().postNotificationName(DSUIWindowDidChangeRootControllerNotification, object: !isMainVC)
+                
+                /// modal出来的控制器需要销毁
+                self.close()
             })
         }
     }
