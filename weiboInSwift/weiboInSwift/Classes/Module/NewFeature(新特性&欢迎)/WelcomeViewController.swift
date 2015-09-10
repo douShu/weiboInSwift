@@ -27,7 +27,7 @@ class WelcomeViewController: UIViewController {
         setupSubviewConstraint()
         
         // 设置用户头像
-        if let urlString = UserAccount.loadUserAccount()?.avatar_large {
+        if let urlString = UserAccount.sharedUserAccount?.avatar_large {
         
             userIcon.sd_setImageWithURL(NSURL(string: urlString)!)
         }

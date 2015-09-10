@@ -24,7 +24,7 @@ class BaseTableViewController: UITableViewController, VisitLoginViewDelegate {
     
     private func userLoginWeibo() -> Bool {
         
-        return UserAccount.loadUserAccount() != nil
+        return UserAccount.sharedUserAccount != nil
     }
     
     // 设置登录视图

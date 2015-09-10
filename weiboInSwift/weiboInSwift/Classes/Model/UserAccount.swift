@@ -31,7 +31,7 @@ class UserAccount: NSObject, NSCoding {
     private static let accountPath: String = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last?.stringByAppendingPathComponent("/account.plist"))!
     
     /// access_token的生命周期，单位是秒数 - 准确的数据类型是`数值`
-    private var expires_in: NSTimeInterval = 0 {
+    var expires_in: NSTimeInterval = 0 {
         /// 设置过期日期
         didSet {
             
@@ -41,7 +41,7 @@ class UserAccount: NSObject, NSCoding {
     
     /// 用户账号属性<---->外部调用方法
     static private var userAccount: UserAccount?
-    class func loadUserAccount() -> UserAccount? {
+    class var sharedUserAccount: UserAccount? {
     
         /// 判断账号信息是否存在
         if userAccount == nil {
@@ -49,8 +49,6 @@ class UserAccount: NSObject, NSCoding {
             /// 解档
             userAccount = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount
         }
-        
-        print(userAccount)
         
         /// 判断用户信息是否过期
         if let date = userAccount?.expiresDate where date.compare(NSDate()) == NSComparisonResult.OrderedAscending {
@@ -109,7 +107,7 @@ class UserAccount: NSObject, NSCoding {
         }
     }
     
-    // MARK: /**************************** 存储模型数据至document ****************************/
+    // MARK:  /**************************** 存储模型数据至document ****************************/
     /// 归档
     func saveUserAccount() {
     
@@ -135,5 +133,8 @@ class UserAccount: NSObject, NSCoding {
         name = aDecoder.decodeObjectForKey("name") as? String
         avatar_large = aDecoder.decodeObjectForKey("avatar_large") as? String
     }
+    
+    // MARK: [---------------------- name ----------------------
+    
     
 }

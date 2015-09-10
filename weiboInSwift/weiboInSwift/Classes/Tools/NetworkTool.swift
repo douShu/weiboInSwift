@@ -38,8 +38,8 @@ class NetworkTool: AFHTTPSessionManager {
     func loadUserInfo(finished: DSNetFinishedCallBack) {
         
         // 判断access_token是否存在
-        let token = UserAccount.loadUserAccount()?.access_token
-        let uid = UserAccount.loadUserAccount()?.uid
+        let token = UserAccount.sharedUserAccount?.access_token
+        let uid = UserAccount.sharedUserAccount?.uid
         
         if token == nil {
             

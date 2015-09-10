@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func defaultVC() -> UIViewController{
     
         // 判断用户是否登录
-        if UserAccount.loadUserAccount() == nil {
+        if UserAccount.sharedUserAccount == nil {
         
             return MainViewController()
         }
