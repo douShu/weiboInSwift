@@ -37,6 +37,15 @@ private enum DSNetworkError: Int {
     
 }
 
+/// 网络访问方法
+private enum DSNetworkMethod: String {
+
+    case GET = "GET"
+    case POST = "POST"
+}
+
+
+
 class NetworkTool: AFHTTPSessionManager {
     
     
@@ -79,7 +88,7 @@ class NetworkTool: AFHTTPSessionManager {
         let URLString = "2/users/show.json"
         let param: [String : AnyObject] = ["access_token": token!, "uid": uid!]
         
-        requestGET(URLString, parameters: param, finished: finished)
+        request(DSNetworkMethod.GET, URLString: URLString, parameters: param, finished: finished)
     }
     
     
@@ -103,27 +112,19 @@ class NetworkTool: AFHTTPSessionManager {
                         "code":             code,
                         "redirect_uri":     redirect_uri]
         
-        POST(urlString, parameters: params, success: { (_, json) -> Void in
-            
-            finished(result: json as? [String : AnyObject], error: nil)
-            }) { (_, error) -> Void in
-                
-                print("失败了->\(error)")
-                
-                finished(result: nil, error: error)
-        }
+        request(DSNetworkMethod.POST, URLString: urlString, parameters: params, finished: finished)
     }
     
     
     // MARK: /**************************** 对AFN网络请求的封装 ****************************/
     typealias DSNetFinishedCallBack = (result: [String : AnyObject]?, error: NSError?) -> ()
     
-    private func requestGET(URLString: String, parameters: [String: AnyObject], finished: DSNetFinishedCallBack) {
-    
-        GET(URLString, parameters: parameters, success: { (_, JSON) -> Void in
+    private func request(method: DSNetworkMethod, URLString: String, parameters: [String: AnyObject], finished: DSNetFinishedCallBack) {
+        
+        let successCallBack: (NSURLSessionDataTask!, AnyObject!) -> Void = {(_, JSON) -> Void in
             
             if let json = JSON as? [String : AnyObject] {
-            
+                
                 // 完成回调
                 finished(result: json, error: nil)
             } else {
@@ -135,11 +136,25 @@ class NetworkTool: AFHTTPSessionManager {
                 // 没有错误, 同时也没有结果
                 finished(result: nil, error: error)
             }
-            }) { (_, error) -> Void in
-                
-                // 跟踪错误
-                finished(result: nil, error: error)
+            
+        }
+        
+        let failedCallBack: (NSURLSessionDataTask!, NSError!) -> Void = {
+        
+            (_, error) -> Void in
+            
+            // 跟踪错误
+            finished(result: nil, error: error)
+        }
+    
+        switch method {
+        
+            case .GET:
+                GET(URLString, parameters: parameters, success: successCallBack, failure: failedCallBack)
+            case .POST:
+                POST(URLString, parameters: parameters, success: successCallBack, failure: failedCallBack)
         }
     }
+
     
 }

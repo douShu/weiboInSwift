@@ -50,7 +50,7 @@ class WelcomeViewController: UIViewController {
             bc.constant = -(UIScreen.mainScreen().bounds.height + bc.constant)
         }
         
-        UIView.animateWithDuration(1.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+        UIView.animateWithDuration(5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
             
             self.view.layoutIfNeeded()
             }) { (_) -> Void in
