@@ -11,6 +11,32 @@ import AFNetworking
 
 private let DSErrorDomainName = "com.itheima.error.network"
 
+/// 错误枚举
+private enum DSNetworkError: Int {
+
+    // 空数据错误
+    case emptyDataError = -1
+    // 授权为空
+    case emptyTokenError = -2
+    
+    /// 错误描述
+    private var errorDescription: String {
+    
+        switch self {
+        
+        case .emptyDataError: return "空数据"
+        case .emptyTokenError: return "没有拿到授权"
+        }
+    }
+    
+    /// 根据枚举类型, 返回对应的错误
+    private func error() -> NSError {
+    
+        return NSError(domain: DSErrorDomainName, code: rawValue, userInfo: [DSErrorDomainName: errorDescription])
+    }
+    
+}
+
 class NetworkTool: AFHTTPSessionManager {
     
     
@@ -44,6 +70,9 @@ class NetworkTool: AFHTTPSessionManager {
         if token == nil {
             
             // TODO: 错误处理
+            let error = DSNetworkError.emptyTokenError.error()
+            print(error)
+            finished(result: nil, error: error)
             return
         }
         
@@ -101,7 +130,7 @@ class NetworkTool: AFHTTPSessionManager {
                 
                 print("没有错误, 也没有结果 GETRquest \(URLString)")
                 
-                let error = NSError(domain: DSErrorDomainName, code: -1, userInfo: ["errorMessage": "空数据"])
+                let error = DSNetworkError.emptyDataError.error()
                 
                 // 没有错误, 同时也没有结果
                 finished(result: nil, error: error)
