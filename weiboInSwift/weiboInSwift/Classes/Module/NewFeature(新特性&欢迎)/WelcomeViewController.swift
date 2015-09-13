@@ -50,7 +50,7 @@ class WelcomeViewController: UIViewController {
             bc.constant = -(UIScreen.mainScreen().bounds.height + bc.constant)
         }
         
-        UIView.animateWithDuration(5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+        UIView.animateWithDuration(1.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
             
             self.view.layoutIfNeeded()
             }) { (_) -> Void in
@@ -91,25 +91,15 @@ class WelcomeViewController: UIViewController {
     private func setupSubviewConstraint() {
     
         // 背景图片
-        backgroudImg.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[subview]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["subview": backgroudImg]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[subview]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["subview": backgroudImg]))
+        backgroudImg.ff_Fill(view)
         
         // 用户头像
-        userIcon.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: userIcon, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: backgroudImg, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: userIcon, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.Width, multiplier: 1.0, constant: 90))
-        view.addConstraint(NSLayoutConstraint(item: userIcon, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 1.0, constant: 90))
-        
-        // 动画约束
-        view.addConstraint(NSLayoutConstraint(item: userIcon, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: backgroudImg, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: -240))
-        userIconBottomConstraint = view.constraints.last
+        let cons = userIcon.ff_AlignInner(type: ff_AlignType.BottomCenter, referView: view, size: CGSize(width: 90, height: 90), offset: CGPoint(x: 0, y: -240))
+        userIconBottomConstraint = userIcon.ff_Constraint(cons, attribute: NSLayoutAttribute.Bottom)
         
         
         // 消息文字
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: messageLabel, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: backgroudImg, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: messageLabel, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: userIcon, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: 32))
+        messageLabel.ff_AlignVertical(type: ff_AlignType.BottomCenter, referView: userIcon, size: nil, offset: CGPoint(x: 0, y: 32))
     }
     
   

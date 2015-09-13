@@ -10,83 +10,97 @@ import UIKit
 
 class HomeTableViewController: BaseTableViewController {
 
+    
+    // MARK: - ----------------------------- 属性 -----------------------------
+    // 数据
+    private var statuses: [Status]? {
+    
+        didSet{
+            
+            tableView.reloadData()
+        }
+    }
+    
+    // MARK: - ----------------------------- 构造方法 -----------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // 设置登录界面
-        visitLoginView?.setupLoginImageView(true, imgName: "visitordiscover_feed_image_smallicon", message: "关注一些人，回这里看看有什么惊喜")
+        if UserAccount.sharedUserAccount == nil {
+        
+            visitLoginView?.setupLoginImageView(true, imgName: "visitordiscover_feed_image_smallicon", message: "关注一些人，回这里看看有什么惊喜")
+            return
+        }
+    
+        refreshControl = UIRefreshControl()
+        // 加载数据
+        loadData()
+        
+        // 设置tableview
+        setupTableview()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // 设置tableview
+    private func setupTableview() {
+    
+        // 注册cell
+        tableView.registerClass(NormalCell.self, forCellReuseIdentifier: StatusCellID.NormalCell.rawValue)
+        tableView.registerClass(RetweetCell.self, forCellReuseIdentifier: StatusCellID.RetweetCell.rawValue)
+        
+        tableView.rowHeight = 300
+        
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    
+    // MARK: - ----------------------------- 加载数据 -----------------------------
+    private func loadData() {
+        
+        Status.loadLists { (lists, error) -> () in
+            
+            if error != nil {
+                
+                print(error)
+                return
+            }
+            self.statuses = lists
+        }
     }
-
+    
+    
+    // MARK: - ----------------------------- 数据源方法 -----------------------------
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return statuses?.count ?? 0
     }
-
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        
+        let status = statuses![indexPath.row]
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(StatusCellID.cellID(status), forIndexPath: indexPath) as! StatusCell
+        
+        cell.status = status
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    
+    // MARK: - ----------------------------- 代理方法 -----------------------------
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        let status = statuses![indexPath.row]
+        
+        if let h = status.rowHeight  {
+        
+            return h
+        }
+        
+        // 返回高度
+        let cell = tableView.dequeueReusableCellWithIdentifier(StatusCellID.cellID(status)) as! StatusCell
+        
+        status.rowHeight = cell.rowHeight(status)
+        
+        return status.rowHeight!
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  
+    
 }

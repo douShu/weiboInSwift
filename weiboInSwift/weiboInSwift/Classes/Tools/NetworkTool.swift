@@ -48,14 +48,14 @@ private enum DSNetworkMethod: String {
 
 class NetworkTool: AFHTTPSessionManager {
     
-    
-    // MARK: /**************************** 属性 ****************************/
+    // MARK: - |----------------------------- 属性 -----------------------------|
     // 授权
     private let client_id = "470245058"
     private let client_secret = "ec982ae6c58a7925d235cc97eccdd708"
     let redirect_uri = "http://www.baidu.com"
     
-    // MARK: /**************************** 初始化函数 ****************************/
+    
+    // MARK: - |----------------------------- 初始化函数 -----------------------------|
     // 单例
     static let sharedNetworkTool: NetworkTool = {
     
@@ -69,30 +69,56 @@ class NetworkTool: AFHTTPSessionManager {
     }()
     
     
-    // MARK: /**************************** 加载用户信息 ****************************/
-    func loadUserInfo(finished: DSNetFinishedCallBack) {
+    
+    // MARK: - |----------------------------- 加载微博信息 -----------------------------|
+    func loadStatus(finished: DSNetFinishedCallBack) {
+    
+        // guard 守卫
+        guard let params = tokenDict(finished) else {
         
-        // 判断access_token是否存在
-        let token = UserAccount.sharedUserAccount?.access_token
-        let uid = UserAccount.sharedUserAccount?.uid
+            return
+        }
         
-        if token == nil {
+        let urlString = "2/statuses/home_timeline.json"
+        
+        request(DSNetworkMethod.GET, URLString: urlString, parameters: params, finished: finished)
+    }
+    
+    // 检查并生成 token 字典
+    private func tokenDict(finished: DSNetFinishedCallBack) -> [String: AnyObject]? {
+    
+        if UserAccount.sharedUserAccount?.access_token == nil {
             
-            // TODO: 错误处理
+            // 错误回调, token为空
             let error = DSNetworkError.emptyTokenError.error()
             print(error)
             finished(result: nil, error: error)
+            return nil
+        }
+        
+        return ["access_token": UserAccount.sharedUserAccount!.access_token!]
+    }
+    
+    // MARK: - |----------------------------- 加载用户信息 -----------------------------|
+    func loadUserInfo(finished: DSNetFinishedCallBack) {
+        
+        // 判断access_token是否存在
+        let uid = UserAccount.sharedUserAccount?.uid
+        guard var param = tokenDict(finished) else  {
+        
             return
         }
         
         let URLString = "2/users/show.json"
-        let param: [String : AnyObject] = ["access_token": token!, "uid": uid!]
+
+        param["uid"] = uid
         
         request(DSNetworkMethod.GET, URLString: URLString, parameters: param, finished: finished)
     }
     
     
-    // MARK: /**************************** 授权函数 ****************************/
+    
+    // MARK: - |----------------------------- 授权函数 -----------------------------|
     // 授权地址
     func oauthURL() -> NSURL {
     
@@ -116,7 +142,8 @@ class NetworkTool: AFHTTPSessionManager {
     }
     
     
-    // MARK: /**************************** 对AFN网络请求的封装 ****************************/
+    
+    // MARK: - |----------------------------- 对AFN网络请求的封装 -----------------------------|
     typealias DSNetFinishedCallBack = (result: [String : AnyObject]?, error: NSError?) -> ()
     
     private func request(method: DSNetworkMethod, URLString: String, parameters: [String: AnyObject], finished: DSNetFinishedCallBack) {

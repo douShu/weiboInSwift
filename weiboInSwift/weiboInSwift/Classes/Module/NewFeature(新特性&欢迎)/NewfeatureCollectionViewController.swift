@@ -128,10 +128,11 @@ class DSCell: UICollectionViewCell {
         contentView.addSubview(btn)
         
         // 设置图片的约束
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[subview]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["subview": imgView]))
-        
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[subview]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["subview": imgView]))
+        imgView.ff_Fill(contentView)
+//        imgView.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[subview]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["subview": imgView]))
+//        
+//        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[subview]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["subview": imgView]))
         
         // 设置btn
         btn.hidden = true
@@ -140,9 +141,10 @@ class DSCell: UICollectionViewCell {
         btn.setBackgroundImage(UIImage(named: "new_feature_finish_button_highlighted"), forState: UIControlState.Highlighted)
         btn.addTarget(self, action: "clickBtn", forControlEvents: UIControlEvents.TouchUpInside)
         // 约束
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0))
-        contentView.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: -160))
+        btn.ff_AlignInner(type: ff_AlignType.BottomCenter, referView: contentView, size: nil, offset: CGPoint(x: 0, y: -160))
+//        btn.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0))
+//        contentView.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: contentView, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: -160))
     }
     
     // 监听按钮
@@ -180,9 +182,6 @@ class DSCell: UICollectionViewCell {
         btn.layer.addAnimation(anim, forKey: nil)
     }
 }
-
-
-
 
 // MARK: /**************************** 流水布局 ****************************/
 private class DSLayout: UICollectionViewFlowLayout {
