@@ -31,13 +31,12 @@ class HomeTableViewController: BaseTableViewController {
             visitLoginView?.setupLoginImageView(true, imgName: "visitordiscover_feed_image_smallicon", message: "关注一些人，回这里看看有什么惊喜")
             return
         }
-    
-        refreshControl = UIRefreshControl()
-        // 加载数据
-        loadData()
         
         // 设置tableview
         setupTableview()
+        
+        // 加载数据
+        loadData()
     }
 
     // 设置tableview
@@ -50,22 +49,92 @@ class HomeTableViewController: BaseTableViewController {
         tableView.rowHeight = 300
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        // 设置下拉刷新控件
+        refreshControl = DSRefreshControl()
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: UIControlEvents.ValueChanged)
     }
     
     // MARK: - ----------------------------- 加载数据 -----------------------------
-    private func loadData() {
+    private var pullUpRefreshFlag = false
+    func loadData() {
         
-        Status.loadLists { (lists, error) -> () in
+        // 开始刷新
+        refreshControl?.beginRefreshing()
+        
+        var since_id = statuses?.first?.id ?? 0
+        
+        var max_id = 0
+        
+        if pullUpRefreshFlag {
+        
+            since_id = 0
+            max_id = statuses?.last?.id ?? 0
+        }
+        Status.loadLists(since_id, max_id: max_id) { (lists, error) -> () in
+           
+            // 结束刷新
+            self.refreshControl?.endRefreshing()
             
             if error != nil {
                 
                 print(error)
                 return
             }
-            self.statuses = lists
+            
+            let count = lists?.count ?? 0
+            
+            if since_id > 0 {
+            
+                self.showPullDownTip(count)
+            }
+            
+            if count == 0 {
+            
+                return
+            }
+            
+            
+            if since_id > 0 { // 做下拉刷下
+            
+                self.statuses = lists! + self.statuses!
+            } else if max_id > 0 { // 做上拉刷新
+            
+                self.pullUpRefreshFlag = false
+                self.statuses = self.statuses! + lists!
+            } else {
+            
+                self.statuses = lists
+            }
         }
     }
     
+    /// 显示刷新了几条微博
+    ///
+    /// - parameter count: 微博数
+    private func showPullDownTip(count: Int) {
+    
+        let h: CGFloat = 44
+        let l: UILabel = UILabel(frame: CGRect(x: 0, y: -2 * h, width: view.bounds.width, height: h))
+        l.backgroundColor = UIColor.orangeColor()
+        l.textColor = UIColor.whiteColor()
+        l.textAlignment = NSTextAlignment.Center
+        l.text = "刷新到\(count)条微博"
+        
+        navigationController?.navigationBar.insertSubview(l, atIndex: 0)
+        
+        UIView.animateWithDuration(2.0, animations: { () -> Void in
+            
+            // 自动反转
+            UIView.setAnimationRepeatAutoreverses(true)
+            
+            l.frame = CGRectOffset(l.frame, 0, 3 * h)
+            
+            }) { (_) -> Void in
+                
+                l.removeFromSuperview()
+        }
+    }
     
     // MARK: - ----------------------------- 数据源方法 -----------------------------
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,6 +147,12 @@ class HomeTableViewController: BaseTableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(StatusCellID.cellID(status), forIndexPath: indexPath) as! StatusCell
         
+        if indexPath.row == (statuses?.count)! - 1 {
+        
+            pullUpRefreshFlag = true
+            
+            loadData()
+        }
         cell.status = status
         
         return cell

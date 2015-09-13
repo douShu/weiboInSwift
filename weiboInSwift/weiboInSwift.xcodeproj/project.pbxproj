@@ -34,6 +34,8 @@
 		DBC608C51BA1CB990052E0A8 /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC608C41BA1CB990052E0A8 /* UIView+AutoLayout.swift */; };
 		DBC608C71BA1D85D0052E0A8 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC608C61BA1D85D0052E0A8 /* Status.swift */; };
 		DBC608C91BA1D86B0052E0A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC608C81BA1D86B0052E0A8 /* User.swift */; };
+		DBC638251BA5B79C00B387D5 /* DSRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC638241BA5B79C00B387D5 /* DSRefreshControl.swift */; };
+		DBC638271BA5B7D200B387D5 /* DSRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBC638261BA5B7D200B387D5 /* DSRefreshView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -79,6 +81,8 @@
 		DBC608C41BA1CB990052E0A8 /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayout.swift"; sourceTree = "<group>"; };
 		DBC608C61BA1D85D0052E0A8 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		DBC608C81BA1D86B0052E0A8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		DBC638241BA5B79C00B387D5 /* DSRefreshControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSRefreshControl.swift; sourceTree = "<group>"; };
+		DBC638261BA5B7D200B387D5 /* DSRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DSRefreshView.xib; sourceTree = "<group>"; };
 		DC0FBCB9C1FEC6DDA7EC0D83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,6 +182,7 @@
 		DB1E48351B9C19480030E014 /* Home(首页) */ = {
 			isa = PBXGroup;
 			children = (
+				DBC638231BA5B77000B387D5 /* RefreshControl */,
 				DBB96DFD1BA1EE1A00586333 /* StatusCell */,
 				DB1E483B1B9C19830030E014 /* HomeTableViewController.swift */,
 			);
@@ -261,6 +266,15 @@
 			path = StatusCell;
 			sourceTree = "<group>";
 		};
+		DBC638231BA5B77000B387D5 /* RefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				DBC638241BA5B79C00B387D5 /* DSRefreshControl.swift */,
+				DBC638261BA5B7D200B387D5 /* DSRefreshView.xib */,
+			);
+			path = RefreshControl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -323,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBAEFF391B9C13D700C471E4 /* Assets.xcassets in Resources */,
+				DBC638271BA5B7D200B387D5 /* DSRefreshView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +415,7 @@
 				DB09CF2B1B9DE86600027BFE /* oauthViewController.swift in Sources */,
 				DBC608C71BA1D85D0052E0A8 /* Status.swift in Sources */,
 				DBB8103C1BA002E800EBB0FD /* WelcomeViewController.swift in Sources */,
+				DBC638251BA5B79C00B387D5 /* DSRefreshControl.swift in Sources */,
 				DB1E48401B9C19A70030E014 /* DiscoverTableViewController.swift in Sources */,
 				DB778C721BA4282D00F89D0B /* UIButton + Extension.swift in Sources */,
 				DB587C291BA1F0AB00B53208 /* TopView.swift in Sources */,

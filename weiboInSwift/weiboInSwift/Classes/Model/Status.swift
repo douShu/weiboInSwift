@@ -105,9 +105,9 @@ class Status: NSObject {
     }
     
     // MARK: - ----------------------------- 字典转模型 -----------------------------
-    class func loadLists(finished: (lists: [Status]?, error: NSError?) -> ()) {
+    class func loadLists(since_id: Int, max_id: Int ,finished: (lists: [Status]?, error: NSError?) -> ()) {
     
-        NetworkTool.sharedNetworkTool.loadStatus { (result, error) -> () in
+        NetworkTool.sharedNetworkTool.loadStatus(since_id, max_id: max_id) { (result, error) -> () in
             
             if error != nil {
             

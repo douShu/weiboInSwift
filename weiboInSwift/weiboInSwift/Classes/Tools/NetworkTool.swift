@@ -71,12 +71,22 @@ class NetworkTool: AFHTTPSessionManager {
     
     
     // MARK: - |----------------------------- 加载微博信息 -----------------------------|
-    func loadStatus(finished: DSNetFinishedCallBack) {
+    func loadStatus(since_id: Int, max_id: Int ,finished: DSNetFinishedCallBack) {
     
         // guard 守卫
-        guard let params = tokenDict(finished) else {
+        guard var params = tokenDict(finished) else {
         
             return
+        }
+        
+        if since_id > 0 {
+        
+            params["since_id"] = since_id
+        }
+        
+        if max_id > 0 {
+        
+            params["max_id"] = max_id
         }
         
         let urlString = "2/statuses/home_timeline.json"
