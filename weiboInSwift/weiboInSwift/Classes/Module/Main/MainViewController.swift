@@ -81,8 +81,14 @@ class MainViewController: UITabBarController {
         return btn
     }()
     
+    
+    // MARK: - ----------------------------- 发送微博 -----------------------------
     func clickComposeButton() {
     
-        print(__FUNCTION__)
+        let vc = (UserAccount.sharedUserAccount == nil) ? oauthViewController() : ComposeViewController()
+        
+        let nav = UINavigationController(rootViewController: vc)
+        
+        presentViewController(nav, animated: true, completion: nil)
     }
 }

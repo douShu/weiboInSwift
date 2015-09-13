@@ -17,6 +17,8 @@
 		DB1E48401B9C19A70030E014 /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1E483F1B9C19A70030E014 /* DiscoverTableViewController.swift */; };
 		DB1E48421B9C19B50030E014 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1E48411B9C19B50030E014 /* ProfileTableViewController.swift */; };
 		DB1E48441B9C301E0030E014 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1E48431B9C301E0030E014 /* BaseTableViewController.swift */; };
+		DB4DFA621BA5DEB200FE0675 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4DFA611BA5DEB200FE0675 /* ComposeViewController.swift */; };
+		DB4DFA641BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4DFA631BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift */; };
 		DB587C291BA1F0AB00B53208 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB587C281BA1F0AB00B53208 /* TopView.swift */; };
 		DB587C2B1BA1F38F00B53208 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */; };
 		DB608BDE1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */; };
@@ -63,6 +65,8 @@
 		DB1E483F1B9C19A70030E014 /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		DB1E48411B9C19B50030E014 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		DB1E48431B9C301E0030E014 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
+		DB4DFA611BA5DEB200FE0675 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
+		DB4DFA631BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem + Extension.swift"; sourceTree = "<group>"; };
 		DB587C281BA1F0AB00B53208 /* TopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
 		DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UILabel + Extension.swift"; path = "../Module/Home(首页)/StatusCell/UILabel + Extension.swift"; sourceTree = "<group>"; };
 		DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewfeatureCollectionViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 		DB1E482D1B9C17B90030E014 /* Module(功能模块) */ = {
 			isa = PBXGroup;
 			children = (
+				DB4DFA601BA5DE2100FE0675 /* Compose(发微博) */,
 				DBB8103A1BA002B000EBB0FD /* NewFeature(新特性&欢迎) */,
 				DB09CF291B9DE84000027BFE /* OAuth(授权) */,
 				DB1E48361B9C19480030E014 /* Main */,
@@ -166,6 +171,7 @@
 				DBC608C41BA1CB990052E0A8 /* UIView+AutoLayout.swift */,
 				DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */,
 				DB778C711BA4282D00F89D0B /* UIButton + Extension.swift */,
+				DB4DFA631BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift */,
 			);
 			name = "Tools(工具)";
 			path = Tools;
@@ -213,6 +219,14 @@
 				DB1E48411B9C19B50030E014 /* ProfileTableViewController.swift */,
 			);
 			path = "Profile(我)";
+			sourceTree = "<group>";
+		};
+		DB4DFA601BA5DE2100FE0675 /* Compose(发微博) */ = {
+			isa = PBXGroup;
+			children = (
+				DB4DFA611BA5DEB200FE0675 /* ComposeViewController.swift */,
+			);
+			path = "Compose(发微博)";
 			sourceTree = "<group>";
 		};
 		DBAEFF251B9C13D700C471E4 = {
@@ -401,6 +415,7 @@
 				DB7D2E931B9DA1C70009556D /* VisitLoginView.swift in Sources */,
 				DBC608C51BA1CB990052E0A8 /* UIView+AutoLayout.swift in Sources */,
 				DB778C781BA454A600F89D0B /* RetweetCell.swift in Sources */,
+				DB4DFA621BA5DEB200FE0675 /* ComposeViewController.swift in Sources */,
 				DBB96DFF1BA1EE3200586333 /* StatusCell.swift in Sources */,
 				DB778C761BA42E7B00F89D0B /* PictureView.swift in Sources */,
 				DBC608C91BA1D86B0052E0A8 /* User.swift in Sources */,
@@ -419,6 +434,7 @@
 				DB1E48401B9C19A70030E014 /* DiscoverTableViewController.swift in Sources */,
 				DB778C721BA4282D00F89D0B /* UIButton + Extension.swift in Sources */,
 				DB587C291BA1F0AB00B53208 /* TopView.swift in Sources */,
+				DB4DFA641BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift in Sources */,
 				DB1E483A1B9C196A0030E014 /* MainViewController.swift in Sources */,
 				DB778C701BA4259200F89D0B /* BottomView.swift in Sources */,
 			);
