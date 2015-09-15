@@ -76,6 +76,9 @@ class HomeTableViewController: BaseTableViewController {
             // 结束刷新
             self.refreshControl?.endRefreshing()
             
+            // 对下拉刷新标记进行复位
+            self.pullUpRefreshFlag = false
+            
             if error != nil {
                 
                 print(error)
@@ -100,7 +103,6 @@ class HomeTableViewController: BaseTableViewController {
                 self.statuses = lists! + self.statuses!
             } else if max_id > 0 { // 做上拉刷新
             
-                self.pullUpRefreshFlag = false
                 self.statuses = self.statuses! + lists!
             } else {
             
@@ -123,6 +125,7 @@ class HomeTableViewController: BaseTableViewController {
         
         navigationController?.navigationBar.insertSubview(l, atIndex: 0)
         
+        let rect = l.frame 
         UIView.animateWithDuration(2.0, animations: { () -> Void in
             
             // 自动反转
@@ -132,7 +135,8 @@ class HomeTableViewController: BaseTableViewController {
             
             }) { (_) -> Void in
                 
-                l.removeFromSuperview()
+                l.frame = rect
+//                l.removeFromSuperview()
         }
     }
     

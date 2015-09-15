@@ -12,9 +12,59 @@ class ComposeViewController: UIViewController {
 
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
+        // 设置界面
         setupUI()
+        
+        // 通知: 监听键盘
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        
+    }
+    
+    deinit {
+    
+        // 取消键盘通知
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    
+    // MARK: - ----------------------------- 键盘通知 -----------------------------
+    func keyboardChanged(notify: NSNotification) {
+    
+        print(notify)
+        
+        let userInfo = notify.userInfo as! [String : AnyObject]
+        
+        // 取到键盘弹出的时间
+        let  durationTime = userInfo["UIKeyboardAnimationDurationUserInfoKey"]?.doubleValue
+        
+        // 取出键盘的y值
+        let keyboardY = userInfo["UIKeyboardFrameEndUserInfoKey"]?.CGRectValue.origin.y
+        
+        print(toolBarBottomCon?.constant)
+        
+        // toolBar的底部约束
+        toolBarBottomCon?.constant = -(screenH - keyboardY!)
+
+        // 动画更新约束
+        UIView.animateWithDuration(durationTime!) { () -> Void in
+            
+            // 强制更新约束
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    
+    // MARK: - ----------------------------- 视图生命周期方法 -----------------------------
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        // 将textView变为第一响应者
+        textView.becomeFirstResponder()
     }
     
     
@@ -53,7 +103,8 @@ class ComposeViewController: UIViewController {
         toolbar.backgroundColor = UIColor(white: 0.8, alpha: 1.0)
         view.addSubview(toolbar)
         
-        toolbar.ff_AlignInner(type: ff_AlignType.BottomLeft, referView: view, size: CGSize(width: UIScreen.mainScreen().bounds.width, height: 44))
+        let cons = toolbar.ff_AlignInner(type: ff_AlignType.BottomLeft, referView: view, size: CGSize(width: UIScreen.mainScreen().bounds.width, height: 44))
+        toolBarBottomCon = toolbar.ff_Constraint(cons, attribute: NSLayoutAttribute.Bottom)
         
         let itemSettings = [["imageName": "compose_toolbar_picture"],
             ["imageName": "compose_mentionbutton_background"],
@@ -103,6 +154,9 @@ class ComposeViewController: UIViewController {
     
     // MARK: - ----------------------------- 监听方法 -----------------------------
     func close() {
+        
+        // 取消textview的响应
+        textView.resignFirstResponder()
     
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -113,8 +167,18 @@ class ComposeViewController: UIViewController {
     }
     
     func inputEmoticon() {
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     
-        print("设置表情")
+        /// 注销键盘
+        textView.resignFirstResponder()
+        
+        textView.inputView = (textView.inputView == nil) ? emoticonVC.view : nil
+        
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        
+        /// 激活键盘
+        textView.becomeFirstResponder()
     }
     
     
@@ -139,5 +203,17 @@ class ComposeViewController: UIViewController {
         
         return tv
     }()
+    
+    /// 表情键盘控制器
+    private lazy var emoticonVC: EmoticonViewController = EmoticonViewController { [weak self] (emoticon) -> () in
+        
+        self?.textView.insertEmoticon(emoticon)
+    }
+    
+    /// 屏幕高度
+    private lazy var screenH: CGFloat = UIScreen.mainScreen().bounds.height
+    
+    /// toolBar的底部约束
+    private var toolBarBottomCon: NSLayoutConstraint?
     
 }

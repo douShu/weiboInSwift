@@ -37,6 +37,13 @@ class DSRefreshControl: UIRefreshControl {
         refreshView.endLoadingAnim()
     }
     
+    override func beginRefreshing() {
+        
+        super.beginRefreshing()
+        
+        refreshView.loadingAnim()
+    }
+    
     
     // MARK: - ----------------------------- 设置界面 -----------------------------
     private func setupUI() {
@@ -60,10 +67,10 @@ class DSRefreshControl: UIRefreshControl {
         }
         
         // 开始加载转轮动画
-        if refreshing{
-        
-            refreshView.loadingAnim()
-        }
+//        if refreshing{
+//        
+//            refreshView.loadingAnim()
+//        }
         
         // 箭头动画
         if frame.origin.y > refreshControlFrameY && refreshView.rotateFlag {
