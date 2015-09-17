@@ -118,7 +118,7 @@ class RefreshView: UIView {
         return v
     }
     
-    
+
     // MARK: - ----------------------------- 动画 -----------------------------
     /// 箭头动画
     private func arrowImgDownAnim() {

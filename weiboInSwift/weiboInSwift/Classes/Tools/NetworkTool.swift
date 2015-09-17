@@ -109,7 +109,31 @@ class NetworkTool: AFHTTPSessionManager {
         return ["access_token": UserAccount.sharedUserAccount!.access_token!]
     }
     
-    // MARK: - |----------------------------- 加载用户信息 -----------------------------|
+    
+    // MARK: - ----------------------------- 上传一条微博 -----------------------------
+    func updateStatuses(statusText: String, image: UIImage?, finished: DSNetFinishedCallBack) {
+        
+        let URLString = "https://api.weibo.com/2/statuses/update.json"
+        
+        guard var param = tokenDict(finished) else {
+        
+            return
+        }
+        
+        param["status"] = statusText
+        
+        if image == nil {
+        
+            request(DSNetworkMethod.POST, URLString: URLString, parameters: param, finished: finished)
+        } else {
+        
+            uploadImage("https://upload.api.weibo.com/2/statuses/upload.json", image: image!, params: param, finished: finished)
+        }
+        
+        
+    }
+    
+    // MARK: - ----------------------------- 加载用户信息 -----------------------------
     func loadUserInfo(finished: DSNetFinishedCallBack) {
         
         // 判断access_token是否存在
@@ -191,6 +215,45 @@ class NetworkTool: AFHTTPSessionManager {
             case .POST:
                 POST(URLString, parameters: parameters, success: successCallBack, failure: failedCallBack)
         }
+    }
+    
+    /// 上传图像
+    private func uploadImage(urlString: String, image: UIImage, params: [String : AnyObject], finished: DSNetFinishedCallBack) {
+    
+        
+        let successCallBack: (NSURLSessionDataTask!, AnyObject!) -> Void = {(_, JSON) -> Void in
+            
+            if let json = JSON as? [String : AnyObject] {
+                
+                // 完成回调
+                finished(result: json, error: nil)
+            } else {
+                
+                print("没有错误, 也没有结果 GETRquest \(urlString)")
+                
+                let error = DSNetworkError.emptyDataError.error()
+                
+                // 没有错误, 同时也没有结果
+                finished(result: nil, error: error)
+            }
+            
+        }
+        
+        let failedCallBack: (NSURLSessionDataTask!, NSError!) -> Void = {
+            
+            (_, error) -> Void in
+            
+            // 跟踪错误
+            finished(result: nil, error: error)
+        }
+        
+        POST(urlString, parameters: params, constructingBodyWithBlock: { (formData) -> Void in
+            
+            let data = UIImagePNGRepresentation(image)
+            
+            formData.appendPartWithFileData(data!, name: "pic", fileName: "xxx", mimeType: "application/octet-stream")
+            }, success: successCallBack, failure: failedCallBack)
+        
     }
 
     

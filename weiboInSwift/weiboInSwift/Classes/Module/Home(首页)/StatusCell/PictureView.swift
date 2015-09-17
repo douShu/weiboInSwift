@@ -106,7 +106,6 @@ class PictureView: UICollectionView {
     }
 }
 
-
 // MARK: - ----------------------------- 数据源方法 -----------------------------
 extension PictureView: UICollectionViewDataSource {
 

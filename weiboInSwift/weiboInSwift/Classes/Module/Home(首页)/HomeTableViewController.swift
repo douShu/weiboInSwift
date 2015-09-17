@@ -21,6 +21,21 @@ class HomeTableViewController: BaseTableViewController {
         }
     }
     
+    private lazy var refreshlabel: UILabel = {
+        
+        let h: CGFloat = 44
+        let l: UILabel = UILabel(frame: CGRect(x: 0, y: -2 * h, width: self.view.bounds.width, height: h))
+        
+        l.backgroundColor = UIColor.orangeColor()
+        l.textColor = UIColor.whiteColor()
+        l.textAlignment = NSTextAlignment.Center
+        
+        self.navigationController?.navigationBar.insertSubview(l, atIndex: 0)
+        
+        return l
+    }()
+    
+    
     // MARK: - ----------------------------- 构造方法 -----------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +70,7 @@ class HomeTableViewController: BaseTableViewController {
         refreshControl?.addTarget(self, action: "loadData", forControlEvents: UIControlEvents.ValueChanged)
     }
     
-    // MARK: - ----------------------------- 加载数据 -----------------------------
+    // MARK: - ----------------------------- 刷新加载数据 -----------------------------
     private var pullUpRefreshFlag = false
     func loadData() {
         
@@ -115,27 +130,26 @@ class HomeTableViewController: BaseTableViewController {
     ///
     /// - parameter count: 微博数
     private func showPullDownTip(count: Int) {
+        
+        /// UIView的动画底层是通过layer来实现的
+        if refreshlabel.layer.animationForKey("position") != nil {
+        
+            print("正在刷新, 请耐心等待")
+            return
+        }
     
-        let h: CGFloat = 44
-        let l: UILabel = UILabel(frame: CGRect(x: 0, y: -2 * h, width: view.bounds.width, height: h))
-        l.backgroundColor = UIColor.orangeColor()
-        l.textColor = UIColor.whiteColor()
-        l.textAlignment = NSTextAlignment.Center
-        l.text = "刷新到\(count)条微博"
-        
-        navigationController?.navigationBar.insertSubview(l, atIndex: 0)
-        
-        let rect = l.frame 
+        refreshlabel.text = "刷新到\(count)条微博"
+        let rect = refreshlabel.frame
         UIView.animateWithDuration(2.0, animations: { () -> Void in
             
             // 自动反转
             UIView.setAnimationRepeatAutoreverses(true)
             
-            l.frame = CGRectOffset(l.frame, 0, 3 * h)
+            self.refreshlabel.frame = CGRectOffset(self.refreshlabel.frame, 0, 3 * 44)
             
             }) { (_) -> Void in
                 
-                l.frame = rect
+                self.refreshlabel.frame = rect
 //                l.removeFromSuperview()
         }
     }

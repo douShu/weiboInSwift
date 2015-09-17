@@ -26,6 +26,8 @@
 		DB4DFA641BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4DFA631BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift */; };
 		DB587C291BA1F0AB00B53208 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB587C281BA1F0AB00B53208 /* TopView.swift */; };
 		DB587C2B1BA1F38F00B53208 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */; };
+		DB5F35601BA9C83E000C0D14 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F355F1BA9C83E000C0D14 /* UIImage + Extension.swift */; };
+		DB5F35631BA9C8B2000C0D14 /* PhotoSelectedCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F35621BA9C8B2000C0D14 /* PhotoSelectedCollectionViewController.swift */; };
 		DB608BDE1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */; };
 		DB778C701BA4259200F89D0B /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB778C6F1BA4259200F89D0B /* BottomView.swift */; };
 		DB778C721BA4282D00F89D0B /* UIButton + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB778C711BA4282D00F89D0B /* UIButton + Extension.swift */; };
@@ -79,6 +81,8 @@
 		DB4DFA631BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem + Extension.swift"; sourceTree = "<group>"; };
 		DB587C281BA1F0AB00B53208 /* TopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
 		DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UILabel + Extension.swift"; path = "../Module/Home(首页)/StatusCell/UILabel + Extension.swift"; sourceTree = "<group>"; };
+		DB5F355F1BA9C83E000C0D14 /* UIImage + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
+		DB5F35621BA9C8B2000C0D14 /* PhotoSelectedCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSelectedCollectionViewController.swift; sourceTree = "<group>"; };
 		DB608BDD1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewfeatureCollectionViewController.swift; sourceTree = "<group>"; };
 		DB778C6F1BA4259200F89D0B /* BottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
 		DB778C711BA4282D00F89D0B /* UIButton + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton + Extension.swift"; sourceTree = "<group>"; };
@@ -140,10 +144,10 @@
 		DB0DB3AA1BA87BD100C9A4CA /* Emoticon */ = {
 			isa = PBXGroup;
 			children = (
-				DB0DB3AB1BA87BD100C9A4CA /* Emoticon.swift */,
-				DB0DB3AC1BA87BD100C9A4CA /* EmoticonAttachment.swift */,
 				DB0DB3AD1BA87BD100C9A4CA /* Emoticons.bundle */,
 				DB0DB3AE1BA87BD100C9A4CA /* EmoticonViewController.swift */,
+				DB0DB3AB1BA87BD100C9A4CA /* Emoticon.swift */,
+				DB0DB3AC1BA87BD100C9A4CA /* EmoticonAttachment.swift */,
 				DB0DB3AF1BA87BD100C9A4CA /* UITextView + Emoticon.swift */,
 			);
 			path = Emoticon;
@@ -189,12 +193,14 @@
 		DB1E482E1B9C17B90030E014 /* Tools(工具) */ = {
 			isa = PBXGroup;
 			children = (
+				DB5F35611BA9C8B2000C0D14 /* PhotoSelected */,
 				DB0DB3AA1BA87BD100C9A4CA /* Emoticon */,
 				DB09CF2C1B9DEBB900027BFE /* NetworkTool.swift */,
 				DBC608C41BA1CB990052E0A8 /* UIView+AutoLayout.swift */,
 				DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */,
 				DB778C711BA4282D00F89D0B /* UIButton + Extension.swift */,
 				DB4DFA631BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift */,
+				DB5F355F1BA9C83E000C0D14 /* UIImage + Extension.swift */,
 			);
 			name = "Tools(工具)";
 			path = Tools;
@@ -250,6 +256,14 @@
 				DB4DFA611BA5DEB200FE0675 /* ComposeViewController.swift */,
 			);
 			path = "Compose(发微博)";
+			sourceTree = "<group>";
+		};
+		DB5F35611BA9C8B2000C0D14 /* PhotoSelected */ = {
+			isa = PBXGroup;
+			children = (
+				DB5F35621BA9C8B2000C0D14 /* PhotoSelectedCollectionViewController.swift */,
+			);
+			path = PhotoSelected;
 			sourceTree = "<group>";
 		};
 		DBAEFF251B9C13D700C471E4 = {
@@ -435,12 +449,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB1E48421B9C19B50030E014 /* ProfileTableViewController.swift in Sources */,
+				DB5F35631BA9C8B2000C0D14 /* PhotoSelectedCollectionViewController.swift in Sources */,
 				DB1E483C1B9C19830030E014 /* HomeTableViewController.swift in Sources */,
 				DB7D2E931B9DA1C70009556D /* VisitLoginView.swift in Sources */,
 				DBC608C51BA1CB990052E0A8 /* UIView+AutoLayout.swift in Sources */,
 				DB778C781BA454A600F89D0B /* RetweetCell.swift in Sources */,
 				DB4DFA621BA5DEB200FE0675 /* ComposeViewController.swift in Sources */,
 				DBB96DFF1BA1EE3200586333 /* StatusCell.swift in Sources */,
+				DB5F35601BA9C83E000C0D14 /* UIImage + Extension.swift in Sources */,
 				DB778C761BA42E7B00F89D0B /* PictureView.swift in Sources */,
 				DBC608C91BA1D86B0052E0A8 /* User.swift in Sources */,
 				DB0DB3B11BA87BD100C9A4CA /* EmoticonAttachment.swift in Sources */,
