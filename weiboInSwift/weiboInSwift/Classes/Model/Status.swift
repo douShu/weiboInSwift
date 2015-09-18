@@ -41,6 +41,7 @@ class Status: NSObject {
             
             // 实例化数组
             pictURLs = [NSURL]()
+            largerPictURLs = [NSURL]()
             
             // 遍历字典
             for dict in pic_urls! {
@@ -48,6 +49,9 @@ class Status: NSObject {
                 if let stringURl = dict["thumbnail_pic"] as? String {
                 
                     pictURLs?.append(NSURL(string: stringURl)!)
+                    
+                    let largerPictURL = stringURl.stringByReplacingOccurrencesOfString("thumbnail", withString: "large")
+                    largerPictURLs?.append(NSURL(string: largerPictURL)!)
                 }
             }
         }
@@ -55,11 +59,16 @@ class Status: NSObject {
     
     /// 保存配图的URL数组
     private var pictURLs: [NSURL]?
+    private var largerPictURLs: [NSURL]?
     
     /// 配图的URL的数组
     var pictureURls: [NSURL]? {
     
         return retweeted_status == nil ? pictURLs : retweeted_status?.pictURLs
+    }
+    var largerPictureURLs: [NSURL]? {
+    
+        return retweeted_status == nil ? largerPictURLs : retweeted_status?.largerPictURLs
     }
     
     /// 用户
@@ -159,10 +168,15 @@ class Status: NSObject {
                 dispatch_group_enter(group)
                 SDWebImageManager.sharedManager().downloadImageWithURL(url, options: SDWebImageOptions(rawValue: 0), progress: nil, completed: { (image, _, _, _ , _ ) -> Void in
                     
-                   // 将图片转化为二进制
-                    let data = UIImagePNGRepresentation(image)
-                    imageLength += data!.length
                     
+                    
+                   // 将图片转化为二进制
+                    if image != nil {
+                    
+                        let data = UIImagePNGRepresentation(image)
+                        imageLength += data!.length
+                        
+                    }
                     dispatch_group_leave(group)
                 })
             }

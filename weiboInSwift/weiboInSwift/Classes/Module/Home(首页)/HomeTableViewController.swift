@@ -12,7 +12,11 @@ class HomeTableViewController: BaseTableViewController {
 
     
     // MARK: - ----------------------------- 属性 -----------------------------
-    // 数据
+    /// 是否是 modal 的标识
+    var isPresend = false
+
+    
+    /// 数据
     private var statuses: [Status]? {
     
         didSet{
@@ -40,21 +44,25 @@ class HomeTableViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 设置登录界面
+        /// 设置登录界面
         if UserAccount.sharedUserAccount == nil {
         
             visitLoginView?.setupLoginImageView(true, imgName: "visitordiscover_feed_image_smallicon", message: "关注一些人，回这里看看有什么惊喜")
             return
         }
         
-        // 设置tableview
+        /// 设置tableview
         setupTableview()
         
-        // 加载数据
+        /// 加载数据
         loadData()
+        
+        /// 接受点击配图的通知
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "photoBrowser:", name: DSPictureViewCellSelectPhotoNotification, object: nil)
+        
     }
 
-    // 设置tableview
+    /// 设置tableview
     private func setupTableview() {
     
         // 注册cell
@@ -70,6 +78,34 @@ class HomeTableViewController: BaseTableViewController {
         refreshControl?.addTarget(self, action: "loadData", forControlEvents: UIControlEvents.ValueChanged)
     }
     
+    /// 注销通知
+    deinit {
+    
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: - ----------------------------- 显示大配图 -----------------------------
+    func photoBrowser(n: NSNotification) {
+    
+        /// modal 浏览图片控制器
+        /// 从自定义的通知中拿取参数, 一定要进行判断
+        guard let largerPictureURLs = n.userInfo![DSPictureViewCellSelectPhotoURLKEY] as? [NSURL] else {
+        
+            print("没有传递largerPictureURLs")
+            return
+        }
+        guard let indexPath = n.userInfo![DSPictureViewCellSelectPhotoIndexKEY] as? NSIndexPath else {
+        
+            print("没有传递indexPath")
+            return
+        }
+        let vc = PhotoBrowserController(largerPictureURLs: largerPictureURLs, index: indexPath.item)
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        vc.transitioningDelegate = self
+        
+        presentViewController(vc, animated: true, completion: nil)
+        
+    }
     // MARK: - ----------------------------- 刷新加载数据 -----------------------------
     private var pullUpRefreshFlag = false
     func loadData() {
@@ -194,6 +230,81 @@ class HomeTableViewController: BaseTableViewController {
         
         return status.rowHeight!
     }
-  
+}
+
+
+// MARK: - ----------------------------- 自定义转场的协议 -----------------------------
+extension HomeTableViewController: UIViewControllerTransitioningDelegate {
+
+    /// 返回提供转场动画的遵守: UIViewControllerTransitioningDelegate 协议的对象
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        isPresend = true
+        
+        return self
+    }
     
+
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    
+        isPresend = false
+        
+        return self
+    }
+}
+
+
+// MARK: - ----------------------------- 自定义转场动画 -----------------------------
+extension HomeTableViewController: UIViewControllerAnimatedTransitioning {
+
+    /// 转场动画时常
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    
+        return 0.5
+    }
+
+    /**
+    transitionContext 提供了转场动画需要的元素
+    
+    completeTransition(true) 动画结束后必须调用的
+    containerView() 容器视图
+    
+    viewForKey      获取到转场的视图
+    */
+    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    
+        if isPresend {
+            let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
+            
+            transitionContext.containerView()?.addSubview(toView!)
+            toView?.alpha = 0.0
+            
+            UIView.animateWithDuration(transitionDuration(transitionContext)) { () -> Void in
+                
+                toView?.alpha = 1.0
+            }
+            
+            UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+                
+                toView?.alpha = 1.0
+                }) { (_) -> Void in
+                    
+                    transitionContext.completeTransition(true)
+            }
+        } else {
+        
+            let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
+            
+            UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+                
+                fromView!.alpha = 0.0
+                }, completion: { (_) -> Void in
+                    
+                    fromView?.removeFromSuperview()
+                    
+                    transitionContext.completeTransition(true)
+            })
+        }
+    }
+
 }

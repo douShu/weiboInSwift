@@ -33,4 +33,13 @@ extension UIButton {
         setImage(UIImage(named: imageName + "_highlighted"), forState: UIControlState.Highlighted)
     }
 
+    convenience init(title: String, fontSize: CGFloat = 14, fontColor: UIColor = UIColor.darkGrayColor(), backColor: UIColor = UIColor.lightGrayColor()) {
+    
+        self.init()
+        
+        setTitle(title, forState: UIControlState.Normal)
+        titleLabel?.font = UIFont.systemFontOfSize(fontSize)
+        setTitleColor(fontColor, forState: UIControlState.Normal)
+        backgroundColor = backColor   
+    }
 }

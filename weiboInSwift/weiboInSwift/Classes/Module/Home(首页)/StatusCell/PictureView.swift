@@ -9,6 +9,13 @@
 import UIKit
 import SDWebImage
 
+/// 创建通知
+let DSPictureViewCellSelectPhotoNotification = "DSPictureViewCellSelectPhotoNotification"
+/// URL的KEY
+let DSPictureViewCellSelectPhotoURLKEY = "DSPictureViewCellSelectPhotoURLKEY"
+/// index的KEY
+let DSPictureViewCellSelectPhotoIndexKEY = "DSPictureViewCellSelectPhotoIndexKEY"
+
 class PictureView: UICollectionView {
     
     
@@ -17,13 +24,17 @@ class PictureView: UICollectionView {
     
     private var pictureURLs: [NSURL]?
     
+    private var largerPictureURLs: [NSURL]?
+    
     var status: Status? {
     
         didSet {
+            pictureURLs = status?.pictureURls
+            largerPictureURLs = status?.largerPictureURLs
         
             sizeToFit()
             
-//            reloadData() 
+            reloadData() 
         }
     }
 
@@ -35,10 +46,12 @@ class PictureView: UICollectionView {
         
         backgroundColor = UIColor.whiteColor()
         
-        // 注册可重用cell
+        /// 注册可重用cell
         registerClass(pictureCell.self, forCellWithReuseIdentifier: "PictureCell")
         
+        /// 设置数据源和代理
         self.dataSource = self
+        self.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -53,9 +66,7 @@ class PictureView: UICollectionView {
     }
     private func setupPictureViewSize() -> (CGSize) {
         
-        pictureURLs = status?.pictureURls
-        
-        // 准备常量
+        /// 准备常量
         let itemSize = CGSize(width: 90, height: 90)
         pictureLayout.itemSize = itemSize
         let margin: CGFloat = 10
@@ -72,7 +83,7 @@ class PictureView: UICollectionView {
             
             let key = pictureURLs![0].absoluteString
             
-            // image 不一定被缓存下来
+            /// image 不一定被缓存下来
             let image = SDWebImageManager.sharedManager().imageCache.imageFromDiskCacheForKey(key)
 
             var size = CGSize(width: 150, height: 120)
@@ -96,8 +107,8 @@ class PictureView: UICollectionView {
             return CGSize(width: w, height: w)
         }
         
-        // 其它 2, 3, 5, 6, 7, 8, 9
-        // 计算行数
+        /// 其它 2, 3, 5, 6, 7, 8, 9
+        /// 计算行数
         let row = (count - 1) / rowCount + 1
         let h = itemSize.height * CGFloat(row) + (CGFloat(row) - 1) * margin
         let w = itemSize.width * CGFloat(rowCount) + (CGFloat(rowCount) - 1) * margin
@@ -105,6 +116,17 @@ class PictureView: UICollectionView {
         return CGSize(width: w, height: h)
     }
 }
+
+// MARK: - ----------------------------- 代理方法 -----------------------------
+extension PictureView: UICollectionViewDelegate {
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        /// 发送通知
+        NSNotificationCenter.defaultCenter().postNotificationName(DSPictureViewCellSelectPhotoNotification, object: self, userInfo: [DSPictureViewCellSelectPhotoURLKEY: largerPictureURLs!, DSPictureViewCellSelectPhotoIndexKEY: indexPath])
+    }
+}
+
 
 // MARK: - ----------------------------- 数据源方法 -----------------------------
 extension PictureView: UICollectionViewDataSource {
@@ -130,6 +152,7 @@ class pictureCell: UICollectionViewCell {
 
     
     // MARK: - ----------------------------- 属性 -----------------------------
+    private lazy var gifImg: UIImageView = UIImageView(image: UIImage(named: "timeline_image_gif"))
     private lazy var imgView: UIImageView = UIImageView()
     private var pictURL: NSURL? {
     
@@ -152,13 +175,23 @@ class pictureCell: UICollectionViewCell {
     private func setupSubview() {
     
         contentView.addSubview(imgView)
+        imgView.addSubview(gifImg)
         
         imgView.ff_Fill(contentView)
+        gifImg.ff_AlignInner(type: ff_AlignType.BottomRight, referView: imgView, size: nil)
         
         imgView.contentMode = UIViewContentMode.ScaleAspectFill
         imgView.clipsToBounds = true
         
         imgView.sd_setImageWithURL(pictURL)
+        
+        if pictURL?.absoluteString.pathExtension.lowercaseString == "gif" {
+        
+            gifImg.hidden = false
+        } else {
+        
+            gifImg.hidden = true
+        }
     }
     
     
