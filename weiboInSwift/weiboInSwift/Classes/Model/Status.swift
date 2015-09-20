@@ -27,7 +27,13 @@ class Status: NSObject {
     var text: String?
     
     /// 微博来源
-    var source: String?
+    var source: String? {
+    
+        didSet {
+            
+            source = source?.hrefLink().text
+        }
+    }
     
     /// 配图数组
     var pic_urls: [[String: AnyObject]]? {

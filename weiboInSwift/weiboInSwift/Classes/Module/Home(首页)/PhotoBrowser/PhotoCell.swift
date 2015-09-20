@@ -9,8 +9,18 @@
 import UIKit
 import SDWebImage
 
+@objc protocol PhotoCellDelegate: NSObjectProtocol {
+
+    /// 缩放比例
+    optional func photoCellZoom(scale: CGFloat)
+    
+    /// 结束缩放
+    optional func photoCellEndZoom()
+}
+
 class PhotoCell: UICollectionViewCell {
  
+    var photoDelegate: PhotoCellDelegate?
     lazy var imageView: UIImageView = UIImageView()
     lazy var scroolView = UIScrollView()
     lazy var screenBounds: CGRect = UIScreen.mainScreen().bounds
@@ -20,16 +30,18 @@ class PhotoCell: UICollectionViewCell {
     
         didSet {
             
-            /// 还原scroolview的设置, 避免复用
+            /// 1> 还原scroolview的设置, 避免复用
+            imageView.transform = CGAffineTransformIdentity
             scroolView.contentSize = CGSizeZero
             scroolView.contentOffset = CGPointZero
             scroolView.contentInset = UIEdgeInsetsZero
             
-            /// 转菊花
+            /// 2> 转菊花
             indicator.startAnimating()
             
             imageView.image = nil
             
+            /// 3> 加载图片
             imageView.sd_setImageWithURL(imgURL) { (image, error, _, _) -> Void in
                 
                 /// 停止菊花
@@ -43,17 +55,19 @@ class PhotoCell: UICollectionViewCell {
                 
                 /// 设置image的位置
                 let s = self.displaySize(self.imageView.image!)
-                if s.height > self.screenBounds.height {
-                
-                    print(self.imageView)
-                    
+                if s.height < self.scroolView.bounds.height {
+                    // 垂直居中
+                    let y = (self.scroolView.bounds.height - s.height) * 0.5
                     self.imageView.frame = CGRect(origin: CGPointZero, size: s)
-                    self.scroolView.contentSize = s
+                    // 设置间距，能够保证缩放完成后，同样能够显示完整画面
+                    self.scroolView.contentInset = UIEdgeInsets(top: y, left: 0, bottom: y, right: 0)
                 } else {
-                
+                    // 长图
                     self.imageView.frame = CGRect(origin: CGPointZero, size: s)
-                    self.imageView.center = self.scroolView.center
+                    // contentSize
+                    self.scroolView.contentSize = s
                 }
+
             }
         }
     }
@@ -94,9 +108,6 @@ class PhotoCell: UICollectionViewCell {
     private func setupIndicator() {
     
         indicator.center = scroolView.center
-//        indicator.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.addConstraint(NSLayoutConstraint(item: indicator, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: scroolView, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0))
-//        contentView.addConstraint(NSLayoutConstraint(item: indicator, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: scroolView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0))
     }
     
     private func setupScroolView() {
@@ -107,10 +118,6 @@ class PhotoCell: UICollectionViewCell {
         
         /// 设置约束
         scroolView.frame = screenBounds
-//        let dict = ["sv": scroolView, "iv": imageView]
-//        scroolView.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[sv]-20-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: dict))
-//        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[sv]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: dict))
     }
 }
 
@@ -123,6 +130,23 @@ extension PhotoCell: UIScrollViewDelegate {
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
         
-        imageView.center = scrollView.center
+        photoDelegate?.photoCellZoom!(imageView.transform.a)
+        
+        // 重新计算间距
+        // 通过 transform 改变view的缩放，bound本身没有变化，frame会变化
+        var offsetX = (scrollView.bounds.width - imageView.frame.width) * 0.56
+        // 如果边距小于0，需要修正
+        offsetX = offsetX < 0 ? 0 : offsetX
+        
+        var offsetY = (scrollView.bounds.height - imageView.frame.height) * 0.5
+        offsetY = offsetY < 0 ? 0 : offsetY
+        
+        scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
+
+    }
+    
+    func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView?, atScale scale: CGFloat) {
+        
+        photoDelegate?.photoCellEndZoom!()
     }
 }

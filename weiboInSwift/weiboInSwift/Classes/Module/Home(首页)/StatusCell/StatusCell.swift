@@ -35,7 +35,7 @@ class StatusCell: UITableViewCell {
             topView.status = status
             
             // 给内容文字赋值
-            contentLabel.text = status?.text ?? ""
+            contentLabel.attributedText = EmoticonPackage.emoticonText(status!.text!, font: contentLabel.font)
             
             // 给配图传模型
             pictureView.status = status

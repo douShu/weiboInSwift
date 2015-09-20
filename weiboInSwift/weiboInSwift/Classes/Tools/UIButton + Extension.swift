@@ -33,7 +33,7 @@ extension UIButton {
         setImage(UIImage(named: imageName + "_highlighted"), forState: UIControlState.Highlighted)
     }
 
-    convenience init(title: String, fontSize: CGFloat = 14, fontColor: UIColor = UIColor.darkGrayColor(), backColor: UIColor = UIColor.lightGrayColor()) {
+    convenience init(title: String, fontSize: CGFloat = 14, fontColor: UIColor = UIColor.whiteColor(), backColor: UIColor = UIColor.blackColor()) {
     
         self.init()
         

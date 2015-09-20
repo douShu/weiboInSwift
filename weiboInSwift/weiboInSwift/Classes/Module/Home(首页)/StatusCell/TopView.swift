@@ -25,8 +25,8 @@ class TopView: UIView {
             memberIconView.image = status?.user?.memberImage
             
             // TODO: 后面会讲
-            timeLabel.text = "刚刚"
-            sourceLabel.text = "来自 微博.com"
+            timeLabel.text = NSDate.sinaDate((status?.created_at)!)?.dateDesctiption
+            sourceLabel.text = status?.source
         }
     }
     

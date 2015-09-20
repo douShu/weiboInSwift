@@ -12,9 +12,14 @@ class HomeTableViewController: BaseTableViewController {
 
     
     // MARK: - ----------------------------- 属性 -----------------------------
+    /// 点击图片的缩影
+    var indexPath: NSIndexPath?
+    /// 转场动画的iconView
+    var iconView = UIImageView()
+    /// 选中的cell上面的图片
+    var pictView: PictureView?
     /// 是否是 modal 的标识
     var isPresend = false
-
     
     /// 数据
     private var statuses: [Status]? {
@@ -99,9 +104,23 @@ class HomeTableViewController: BaseTableViewController {
             print("没有传递indexPath")
             return
         }
+        guard let pictView = n.object as? PictureView else {
+        
+            print("图像不存在")
+            return
+        }
+        
+        /// 记录点击的是哪个collectingView
+        self.pictView = pictView
+        self.indexPath = indexPath
+        
+        /// 1> 自定义转场动画
         let vc = PhotoBrowserController(largerPictureURLs: largerPictureURLs, index: indexPath.item)
         vc.modalPresentationStyle = UIModalPresentationStyle.Custom
         vc.transitioningDelegate = self
+        
+        /// 2> 转场动画的View
+        iconView.sd_setImageWithURL(largerPictureURLs[indexPath.item])
         
         presentViewController(vc, animated: true, completion: nil)
         
@@ -260,7 +279,7 @@ extension HomeTableViewController: UIViewControllerAnimatedTransitioning {
     /// 转场动画时常
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     
-        return 0.5
+        return 1
     }
 
     /**
@@ -276,35 +295,59 @@ extension HomeTableViewController: UIViewControllerAnimatedTransitioning {
         if isPresend {
             let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
             
-            transitionContext.containerView()?.addSubview(toView!)
-            toView?.alpha = 0.0
+            transitionContext.containerView()?.addSubview(iconView)
+            let fromRect = pictView!.cellScreenFrame(self.indexPath!)
+            let toRect = pictView!.cellFulScreenFrame(self.indexPath!)
             
-            UIView.animateWithDuration(transitionDuration(transitionContext)) { () -> Void in
-                
-                toView?.alpha = 1.0
-            }
+            iconView.frame = fromRect
             
             UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
                 
-                toView?.alpha = 1.0
+                self.iconView.frame = toRect
                 }) { (_) -> Void in
                     
+                    self.iconView.removeFromSuperview()
+                    
+                    /// 添加目标视图
+                    transitionContext.containerView()?.addSubview(toView!)
                     transitionContext.completeTransition(true)
             }
-        } else {
-        
-            let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-            
-            UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
-                
-                fromView!.alpha = 0.0
-                }, completion: { (_) -> Void in
-                    
-                    fromView?.removeFromSuperview()
-                    
-                    transitionContext.completeTransition(true)
-            })
+            return
         }
+        
+        print("毛关系")
+        /// 获取照片查看器控制器
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! PhotoBrowserController
+        
+        /// 获取微博中对应cell的位置
+        let indexPath = fromVC.currentImageViewIndexPath()
+        let rect = pictView!.cellScreenFrame(indexPath)
+        
+        /// 获取照片视图
+        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
+        
+        /// 获取图像视图
+        let iv = fromVC.currentImageView()
+        
+        iv.center = fromView!.center
+        
+        let scale = fromView!.transform.a
+        iv.transform = CGAffineTransformScale(iv.transform, scale, scale)
+        
+        transitionContext.containerView()?.addSubview(iv)
+        
+        fromView?.removeFromSuperview()
+        
+        UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+            
+            iv.frame = rect
+            }, completion: { (_) -> Void in
+                
+                iv.removeFromSuperview()
+                
+                transitionContext.completeTransition(true)
+        })
+        
     }
 
 }

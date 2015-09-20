@@ -12,9 +12,11 @@ import SVProgressHUD
 /// cell的标示符
 private let DSPhotoBrowserCollectionCellID = "DSPhotoBrowserCollectionCell"
 
-class PhotoBrowserController: UIViewController {
+class PhotoBrowserController: UIViewController, PhotoCellDelegate {
     
+
     // MARK: - ----------------------------- 属性 -----------------------------
+    lazy var photoScale: CGFloat = 1
     lazy var collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
     var largerPictureURLs: [NSURL]
     var index: Int
@@ -61,7 +63,7 @@ class PhotoBrowserController: UIViewController {
     
     // MARK: - ----------------------------- 监听方法 -----------------------------
     func closeVC() {
-    
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -78,7 +80,6 @@ class PhotoBrowserController: UIViewController {
         
         /// 保存图片
         UIImageWriteToSavedPhotosAlbum(img, self, "image:didFinishSavingWithError:contextInfo:", nil)
-        print("保存图片")
     }
 
     func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject?) {
@@ -87,7 +88,7 @@ class PhotoBrowserController: UIViewController {
         
         SVProgressHUD.showInfoWithStatus(msg)
     }
-    
+   
     // MARK: - ----------------------------- 设置UI -----------------------------
     private func setupUI() {
         
@@ -100,22 +101,16 @@ class PhotoBrowserController: UIViewController {
     }
     
     private func setupBtn() {
-    
-        closeBtn.translatesAutoresizingMaskIntoConstraints = false
-        saveBtn.translatesAutoresizingMaskIntoConstraints = false
-        let dict = ["close": closeBtn, "save": saveBtn]
         
-        
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[save]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: dict))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[close]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: dict))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[close(100)]-(>=0)-[save(100)]-28-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: dict))
+        let rect = CGRect(x: 0, y: UIScreen.mainScreen().bounds.height - 40, width: 100, height: 32)
+        closeBtn.frame = CGRectOffset(rect, 8, 0)
+        saveBtn.frame = CGRectOffset(rect, UIScreen.mainScreen().bounds.width - rect.width - 8, 0)
         
         closeBtn.addTarget(self, action: "closeVC", forControlEvents: UIControlEvents.TouchUpInside)
         saveBtn.addTarget(self, action: "savePhoto", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupCollectionView() {
-        
         print(view.bounds)
         collectionView.frame = view.bounds
         collectionView.dataSource = self
@@ -129,14 +124,76 @@ class PhotoBrowserController: UIViewController {
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        layout.itemSize = screenBounds.size
+        layout.itemSize = view.bounds.size
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
     }
-
-
-    deinit {
     
-        print("wo走了")
+    
+    // MARK: - ----------------------------- 捏合图片的代理 -----------------------------
+    func photoCellZoom(scale: CGFloat) {
+        
+        print(scale)
+        /// 1> 记录缩放比例
+        photoScale = scale
+        
+        /// 2> 设置控件隐藏: scale小于 1
+        if scale < 0.6 {
+        
+            hiddenControls(scale < 1)
+        }
+        
+        /// 3> 开始转场
+        if scale < 0.6 {
+        
+            startInteractiveTransition(self)
+        } else {
+        
+            hiddenControls(false)
+            view.transform = CGAffineTransformIdentity
+            view.alpha = 1
+        }
+    }
+    
+    func photoCellEndZoom() {
+        
+        if photoScale < 0.6 {
+        
+            completeTransition(true)
+        } else {
+        
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                
+                self.view.transform = CGAffineTransformIdentity
+                }, completion: { (_) -> Void in
+                    
+                    self.photoScale = 1
+                    
+                    self.hiddenControls(false)
+            })
+        }
+    }
+    
+    private func hiddenControls(hidden: Bool) {
+    
+        collectionView.backgroundColor = hidden ? UIColor.clearColor() : UIColor.blackColor()
+        
+        closeBtn.hidden = hidden
+        
+        saveBtn.hidden = hidden
+    }
+    
+    
+    // MARK: - ----------------------------- 当前显示的图片 -----------------------------
+    func currentImageView() -> UIImageView {
+    
+        let cell = collectionView.cellForItemAtIndexPath(currentImageViewIndexPath()) as? PhotoCell
+        
+        return (cell?.imageView)!
+    }
+    
+    func currentImageViewIndexPath() -> NSIndexPath {
+    
+        return collectionView.indexPathsForVisibleItems().last!
     }
 }
 
@@ -153,8 +210,43 @@ extension PhotoBrowserController: UICollectionViewDataSource, UICollectionViewDe
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(DSPhotoBrowserCollectionCellID, forIndexPath: indexPath) as! PhotoCell
         
         cell.imgURL = largerPictureURLs[indexPath.item]
-        cell.imageView.backgroundColor = UIColor.randomColor()
+        cell.photoDelegate = self
         
         return cell
     }
+}
+
+extension PhotoBrowserController: UIViewControllerInteractiveTransitioning {
+
+    /// 开始交互转场
+    func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+        
+        view.transform = CGAffineTransformMakeScale(photoScale, photoScale)
+    }
+}
+
+extension PhotoBrowserController: UIViewControllerContextTransitioning {
+
+    func completeTransition(didComplete: Bool) {
+        
+        closeVC()
+    }
+    
+    /// 容器视图
+    func containerView() -> UIView? { return view.superview }
+    
+    func isAnimated() -> Bool { return true }
+    func isInteractive() -> Bool { return true }
+    func transitionWasCancelled() -> Bool { return false }
+    func presentationStyle() -> UIModalPresentationStyle { return UIModalPresentationStyle.Custom }
+    
+    func updateInteractiveTransition(percentComplete: CGFloat) {}
+    func finishInteractiveTransition() {}
+    func cancelInteractiveTransition() {}
+    
+    func viewControllerForKey(key: String) -> UIViewController? { return self }
+    func viewForKey(key: String) -> UIView? { return view }
+    func targetTransform() -> CGAffineTransform { return CGAffineTransformIdentity }
+    func initialFrameForViewController(vc: UIViewController) -> CGRect { return CGRectZero }
+    func finalFrameForViewController(vc: UIViewController) -> CGRect { return CGRectZero }
 }

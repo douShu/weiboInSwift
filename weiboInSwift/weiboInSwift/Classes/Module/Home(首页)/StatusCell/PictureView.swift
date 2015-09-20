@@ -57,7 +57,48 @@ class PictureView: UICollectionView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    // MARK: - ----------------------------- 返回选中的imgView -----------------------------
+    func currentSelectImgView() -> UIImageView {
+        
+        let cell = cellForItemAtIndexPath(currentSelectCellIndexPath())! as! PhotoCell
+        
+        return cell.imageView
+    }
     
+    func currentSelectCellIndexPath() -> NSIndexPath {
+        
+        return indexPathsForVisibleItems().last!
+    }
+    
+    func cellScreenFrame(indexPath: NSIndexPath) -> CGRect {
+        
+        let cell = cellForItemAtIndexPath(indexPath)
+        
+        return convertRect((cell?.frame)!, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
+        
+    }
+    
+    func cellFulScreenFrame(indexPath: NSIndexPath) ->CGRect {
+    
+        /// 1> 拿到缩略图
+        let key = status!.pictureURls![indexPath.item].absoluteString
+        let image = SDWebImageManager.sharedManager().imageCache.imageFromDiskCacheForKey(key)
+        
+        
+        /// 2> 根据缩略图计算大图位置
+        let scale = image.size.height / image.size.width
+        let screenSize = UIScreen.mainScreen().bounds.size
+        let height = screenSize.width * scale
+        
+        /// 3> 考虑长短途
+        var y: CGFloat = 0
+        if height < screenSize.height {
+        
+            y = (screenSize.height - height) * 0.5
+        }
+        
+        return CGRect(x: 0, y: y, width: screenSize.width, height: height)
+    }
     
     // MARK: - ----------------------------- 设置高度 -----------------------------
     override func sizeThatFits(size: CGSize) -> CGSize {
