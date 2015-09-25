@@ -1,6 +1,6 @@
 
 //
-//  String + Extension.swift
+//  String + Extensin.swift
 //  weiboInSwift
 //
 //  Created by 逗叔 on 15/9/20.

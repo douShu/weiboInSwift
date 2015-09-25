@@ -10,6 +10,12 @@ import UIKit
 
 let cellSubviewMargin: CGFloat = 8.0
 
+/// 点击链接的协议
+protocol StatusCellDelegate: NSObjectProtocol {
+
+    func statusCellDidSelectedLinkText(text: String)
+}
+
 /// cell的标识符
 enum StatusCellID: String {
 
@@ -27,6 +33,10 @@ class StatusCell: UITableViewCell {
     
     
     // MARK: - ----------------------------- 属性 -----------------------------
+    /// 链接代理
+    var statusDelegate: StatusCellDelegate?
+    
+    /// 数据
     var status: Status? {
     
         didSet   {
@@ -105,15 +115,18 @@ class StatusCell: UITableViewCell {
     // MARK: - ----------------------------- 懒加载控件 -----------------------------
     lazy var topView: TopView = TopView()
     
-    lazy var contentLabel: UILabel = {
+    lazy var contentLabel: FFLabel = {
     
-        let l = UILabel(textLabelColor: UIColor.darkGrayColor(), fontSize: 15)
+        let l = FFLabel(textLabelColor: UIColor.darkGrayColor(), fontSize: 15)
         
         // 设置下面属性, 避免label换行不准
         l.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 2 * cellSubviewMargin
 
         l.numberOfLines = 0
         l.sizeToFit()
+        
+        /// 设置label的代理
+        l.labelDelegate = self
         
         return l
     }()
@@ -126,7 +139,15 @@ class StatusCell: UITableViewCell {
     var pictureViewWidthCons: NSLayoutConstraint?
     var pictureViewHeightCons: NSLayoutConstraint?
     var pictureViewTopCons: NSLayoutConstraint?
-    
-    
-    
+}
+
+extension StatusCell: FFLabelDelegate {
+
+    func labelDidSelectedLinkText(label: FFLabel, text: String) {
+        
+        if text.hasPrefix("http://") {
+        
+            self.statusDelegate?.statusCellDidSelectedLinkText(text)
+        }
+    }
 }

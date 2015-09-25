@@ -122,7 +122,7 @@ class Status: NSObject {
     // MARK: - ----------------------------- 字典转模型 -----------------------------
     class func loadLists(since_id: Int, max_id: Int ,finished: (lists: [Status]?, error: NSError?) -> ()) {
     
-        NetworkTool.sharedNetworkTool.loadStatus(since_id, max_id: max_id) { (result, error) -> () in
+        StatusDAL.loadStatus(since_id, max_id: max_id) { (result, error) -> () in
             
             if error != nil {
             
@@ -130,16 +130,14 @@ class Status: NSObject {
                 return
             }
             
-            if let dict = result {
-                
-                let array = dict["statuses"] as! NSArray
+            if let array = result {
                 
                 var lists = [Status]()
                 
                 // 遍历数组
-                for dict2 in array {
+                for dict in array {
                     
-                    let status = Status(dict: dict2 as! [String : AnyObject])
+                    let status = Status(dict: dict )
                     
                     lists.append(status)
                 }

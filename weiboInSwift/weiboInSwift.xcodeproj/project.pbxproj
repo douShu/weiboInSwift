@@ -50,6 +50,19 @@
 		DBC608C91BA1D86B0052E0A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC608C81BA1D86B0052E0A8 /* User.swift */; };
 		DBC638251BA5B79C00B387D5 /* DSRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC638241BA5B79C00B387D5 /* DSRefreshControl.swift */; };
 		DBC638271BA5B7D200B387D5 /* DSRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBC638261BA5B7D200B387D5 /* DSRefreshView.xib */; };
+		DBE109801BAFFBA800A8DE56 /* FFLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE1097F1BAFFBA800A8DE56 /* FFLabel.swift */; };
+		DBE109821BB0028500A8DE56 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE109811BB0028500A8DE56 /* WebViewController.swift */; };
+		DBEC24531BB257030089E4B2 /* SQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEC24521BB257030089E4B2 /* SQLiteManager.swift */; };
+		DBEC24631BB2571B0089E4B2 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEC24561BB2571B0089E4B2 /* FMDatabase.m */; };
+		DBEC24641BB2571B0089E4B2 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEC24581BB2571B0089E4B2 /* FMDatabaseAdditions.m */; };
+		DBEC24651BB2571B0089E4B2 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEC245A1BB2571B0089E4B2 /* FMDatabasePool.m */; };
+		DBEC24661BB2571B0089E4B2 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEC245C1BB2571B0089E4B2 /* FMDatabaseQueue.m */; };
+		DBEC24671BB2571B0089E4B2 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEC245F1BB2571B0089E4B2 /* FMResultSet.m */; };
+		DBEC24681BB2571B0089E4B2 /* FMDatabaseAdditionsVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEC24611BB2571B0089E4B2 /* FMDatabaseAdditionsVariadic.swift */; };
+		DBEC24691BB2571B0089E4B2 /* FMDatabaseVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEC24621BB2571B0089E4B2 /* FMDatabaseVariadic.swift */; };
+		DBEC246C1BB257770089E4B2 /* tables.sql in Resources */ = {isa = PBXBuildFile; fileRef = DBEC246B1BB257770089E4B2 /* tables.sql */; };
+		DBEC246F1BB257F30089E4B2 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DBEC246E1BB257F30089E4B2 /* libsqlite3.tbd */; };
+		DBEC24721BB25A280089E4B2 /* StatusDAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEC24711BB25A280089E4B2 /* StatusDAL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +124,26 @@
 		DBC608C81BA1D86B0052E0A8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DBC638241BA5B79C00B387D5 /* DSRefreshControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSRefreshControl.swift; sourceTree = "<group>"; };
 		DBC638261BA5B7D200B387D5 /* DSRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DSRefreshView.xib; sourceTree = "<group>"; };
+		DBE1097F1BAFFBA800A8DE56 /* FFLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFLabel.swift; sourceTree = "<group>"; };
+		DBE109811BB0028500A8DE56 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		DBEC24521BB257030089E4B2 /* SQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteManager.swift; sourceTree = "<group>"; };
+		DBEC24551BB2571B0089E4B2 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		DBEC24561BB2571B0089E4B2 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		DBEC24571BB2571B0089E4B2 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		DBEC24581BB2571B0089E4B2 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		DBEC24591BB2571B0089E4B2 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		DBEC245A1BB2571B0089E4B2 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		DBEC245B1BB2571B0089E4B2 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		DBEC245C1BB2571B0089E4B2 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		DBEC245D1BB2571B0089E4B2 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		DBEC245E1BB2571B0089E4B2 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		DBEC245F1BB2571B0089E4B2 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		DBEC24611BB2571B0089E4B2 /* FMDatabaseAdditionsVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDatabaseAdditionsVariadic.swift; sourceTree = "<group>"; };
+		DBEC24621BB2571B0089E4B2 /* FMDatabaseVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDatabaseVariadic.swift; sourceTree = "<group>"; };
+		DBEC246B1BB257770089E4B2 /* tables.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tables.sql; sourceTree = "<group>"; };
+		DBEC246E1BB257F30089E4B2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		DBEC24701BB258710089E4B2 /* Header-Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Header-Bridge.h"; sourceTree = "<group>"; };
+		DBEC24711BB25A280089E4B2 /* StatusDAL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusDAL.swift; sourceTree = "<group>"; };
 		DC0FBCB9C1FEC6DDA7EC0D83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBEC246F1BB257F30089E4B2 /* libsqlite3.tbd in Frameworks */,
 				8E794D96EEB29CD40D2C40C7 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +172,7 @@
 		801221FBE5AC0A7C60924A32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DBEC246E1BB257F30089E4B2 /* libsqlite3.tbd */,
 				7BC76849E26A254FD1DA6978 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -166,6 +201,7 @@
 		DB1E482B1B9C17B90030E014 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DBEC246A1BB257770089E4B2 /* Resource */,
 				DB1E482C1B9C17B90030E014 /* Model(业务模型) */,
 				DB1E482D1B9C17B90030E014 /* Module(功能模块) */,
 				DB1E482E1B9C17B90030E014 /* Tools(工具) */,
@@ -178,6 +214,7 @@
 			children = (
 				DB09CF2E1B9E00D200027BFE /* UserAccount.swift */,
 				DBC608C61BA1D85D0052E0A8 /* Status.swift */,
+				DBEC24711BB25A280089E4B2 /* StatusDAL.swift */,
 				DBC608C81BA1D86B0052E0A8 /* User.swift */,
 			);
 			name = "Model(业务模型)";
@@ -203,8 +240,10 @@
 		DB1E482E1B9C17B90030E014 /* Tools(工具) */ = {
 			isa = PBXGroup;
 			children = (
+				DBEC24541BB2571B0089E4B2 /* fmdb */,
 				DB5F35611BA9C8B2000C0D14 /* PhotoSelected */,
 				DB0DB3AA1BA87BD100C9A4CA /* Emoticon */,
+				DBE1097F1BAFFBA800A8DE56 /* FFLabel.swift */,
 				DB09CF2C1B9DEBB900027BFE /* NetworkTool.swift */,
 				DBC608C41BA1CB990052E0A8 /* UIView+AutoLayout.swift */,
 				DB587C2A1BA1F38F00B53208 /* UILabel + Extension.swift */,
@@ -214,6 +253,7 @@
 				DB6769331BABB3BA00876B64 /* UIColor + Extension.swift */,
 				DB7668091BADC08200334AC7 /* NSDate + Extension.swift */,
 				DB76680B1BADC6ED00334AC7 /* String + Extension.swift */,
+				DBEC24521BB257030089E4B2 /* SQLiteManager.swift */,
 			);
 			name = "Tools(工具)";
 			path = Tools;
@@ -234,6 +274,7 @@
 				DBC638231BA5B77000B387D5 /* RefreshControl */,
 				DBB96DFD1BA1EE1A00586333 /* StatusCell */,
 				DB1E483B1B9C19830030E014 /* HomeTableViewController.swift */,
+				DBE109811BB0028500A8DE56 /* WebViewController.swift */,
 			);
 			path = "Home(首页)";
 			sourceTree = "<group>";
@@ -311,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				DBAEFF311B9C13D700C471E4 /* AppDelegate.swift */,
+				DBEC24701BB258710089E4B2 /* Header-Bridge.h */,
 				DB1E482B1B9C17B90030E014 /* Classes */,
 				DBAEFF381B9C13D700C471E4 /* Assets.xcassets */,
 				DBAEFF3D1B9C13D700C471E4 /* Info.plist */,
@@ -347,6 +389,42 @@
 				DBC638261BA5B7D200B387D5 /* DSRefreshView.xib */,
 			);
 			path = RefreshControl;
+			sourceTree = "<group>";
+		};
+		DBEC24541BB2571B0089E4B2 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				DBEC24551BB2571B0089E4B2 /* FMDatabase.h */,
+				DBEC24561BB2571B0089E4B2 /* FMDatabase.m */,
+				DBEC24571BB2571B0089E4B2 /* FMDatabaseAdditions.h */,
+				DBEC24581BB2571B0089E4B2 /* FMDatabaseAdditions.m */,
+				DBEC24591BB2571B0089E4B2 /* FMDatabasePool.h */,
+				DBEC245A1BB2571B0089E4B2 /* FMDatabasePool.m */,
+				DBEC245B1BB2571B0089E4B2 /* FMDatabaseQueue.h */,
+				DBEC245C1BB2571B0089E4B2 /* FMDatabaseQueue.m */,
+				DBEC245D1BB2571B0089E4B2 /* FMDB.h */,
+				DBEC245E1BB2571B0089E4B2 /* FMResultSet.h */,
+				DBEC245F1BB2571B0089E4B2 /* FMResultSet.m */,
+				DBEC24601BB2571B0089E4B2 /* Swift extensions */,
+			);
+			path = fmdb;
+			sourceTree = "<group>";
+		};
+		DBEC24601BB2571B0089E4B2 /* Swift extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DBEC24611BB2571B0089E4B2 /* FMDatabaseAdditionsVariadic.swift */,
+				DBEC24621BB2571B0089E4B2 /* FMDatabaseVariadic.swift */,
+			);
+			path = "Swift extensions";
+			sourceTree = "<group>";
+		};
+		DBEC246A1BB257770089E4B2 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				DBEC246B1BB257770089E4B2 /* tables.sql */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -413,6 +491,7 @@
 				DBAEFF391B9C13D700C471E4 /* Assets.xcassets in Resources */,
 				DB0DB3B21BA87BD100C9A4CA /* Emoticons.bundle in Resources */,
 				DBC638271BA5B7D200B387D5 /* DSRefreshView.xib in Resources */,
+				DBEC246C1BB257770089E4B2 /* tables.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,7 +552,12 @@
 			files = (
 				DB1E48421B9C19B50030E014 /* ProfileTableViewController.swift in Sources */,
 				DB5F35631BA9C8B2000C0D14 /* PhotoSelectedCollectionViewController.swift in Sources */,
+				DBEC24681BB2571B0089E4B2 /* FMDatabaseAdditionsVariadic.swift in Sources */,
 				DB1E483C1B9C19830030E014 /* HomeTableViewController.swift in Sources */,
+				DBEC24631BB2571B0089E4B2 /* FMDatabase.m in Sources */,
+				DBE109801BAFFBA800A8DE56 /* FFLabel.swift in Sources */,
+				DBEC24651BB2571B0089E4B2 /* FMDatabasePool.m in Sources */,
+				DBEC24721BB25A280089E4B2 /* StatusDAL.swift in Sources */,
 				DB7D2E931B9DA1C70009556D /* VisitLoginView.swift in Sources */,
 				DBC608C51BA1CB990052E0A8 /* UIView+AutoLayout.swift in Sources */,
 				DB9F6FB11BAB9DFF00024039 /* PhotoBrowserController.swift in Sources */,
@@ -481,6 +565,7 @@
 				DB4DFA621BA5DEB200FE0675 /* ComposeViewController.swift in Sources */,
 				DBB96DFF1BA1EE3200586333 /* StatusCell.swift in Sources */,
 				DB6769341BABB3BA00876B64 /* UIColor + Extension.swift in Sources */,
+				DBEC24691BB2571B0089E4B2 /* FMDatabaseVariadic.swift in Sources */,
 				DB76680C1BADC6ED00334AC7 /* String + Extension.swift in Sources */,
 				DB5F35601BA9C83E000C0D14 /* UIImage + Extension.swift in Sources */,
 				DB778C761BA42E7B00F89D0B /* PictureView.swift in Sources */,
@@ -493,7 +578,9 @@
 				DB09CF2D1B9DEBB900027BFE /* NetworkTool.swift in Sources */,
 				DB778C7A1BA4685000F89D0B /* NormalCell.swift in Sources */,
 				DB608BDE1BA012BF00DFDA32 /* NewfeatureCollectionViewController.swift in Sources */,
+				DBE109821BB0028500A8DE56 /* WebViewController.swift in Sources */,
 				DB1E48441B9C301E0030E014 /* BaseTableViewController.swift in Sources */,
+				DBEC24531BB257030089E4B2 /* SQLiteManager.swift in Sources */,
 				DB6769321BABB25E00876B64 /* PhotoCell.swift in Sources */,
 				DB1E483E1B9C19990030E014 /* MessageTableViewController.swift in Sources */,
 				DB09CF2B1B9DE86600027BFE /* oauthViewController.swift in Sources */,
@@ -501,9 +588,12 @@
 				DBB8103C1BA002E800EBB0FD /* WelcomeViewController.swift in Sources */,
 				DBC638251BA5B79C00B387D5 /* DSRefreshControl.swift in Sources */,
 				DB1E48401B9C19A70030E014 /* DiscoverTableViewController.swift in Sources */,
+				DBEC24661BB2571B0089E4B2 /* FMDatabaseQueue.m in Sources */,
 				DB778C721BA4282D00F89D0B /* UIButton + Extension.swift in Sources */,
 				DB76680A1BADC08200334AC7 /* NSDate + Extension.swift in Sources */,
+				DBEC24641BB2571B0089E4B2 /* FMDatabaseAdditions.m in Sources */,
 				DB587C291BA1F0AB00B53208 /* TopView.swift in Sources */,
+				DBEC24671BB2571B0089E4B2 /* FMResultSet.m in Sources */,
 				DB4DFA641BA5E42F00FE0675 /* UIBarButtonItem + Extension.swift in Sources */,
 				DB1E483A1B9C196A0030E014 /* MainViewController.swift in Sources */,
 				DB778C701BA4259200F89D0B /* BottomView.swift in Sources */,
@@ -606,6 +696,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.itcast.weiboInSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "weiboInSwift/Header-Bridge.h";
 			};
 			name = Debug;
 		};
@@ -619,6 +710,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.itcast.weiboInSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "weiboInSwift/Header-Bridge.h";
 			};
 			name = Release;
 		};

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        SQLiteManager.sharedManager
         // 接收通知
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "changeRootVC:", name: DSUIWindowDidChangeRootControllerNotification, object: nil)
         
@@ -103,6 +104,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     deinit{
     
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    /// 清除数据库缓存
+    func applicationDidEnterBackground(application: UIApplication) {
+        
+        StatusDAL.clearDBCache()
     }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeTableViewController: BaseTableViewController {
+class HomeTableViewController: BaseTableViewController, StatusCellDelegate {
 
     
     // MARK: - ----------------------------- 属性 -----------------------------
@@ -30,6 +30,7 @@ class HomeTableViewController: BaseTableViewController {
         }
     }
     
+
     private lazy var refreshlabel: UILabel = {
         
         let h: CGFloat = 44
@@ -88,6 +89,24 @@ class HomeTableViewController: BaseTableViewController {
     
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
+    
+    // MARK: - ----------------------------- 单元格选中了http超链接文字 -----------------------------
+    func statusCellDidSelectedLinkText(text: String) {
+        
+        guard let url = NSURL(string: text) else {
+        
+            print("没有有效的url")
+            return
+        }
+        
+        let vc = WebViewController()
+        vc.url = url
+        
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     
     // MARK: - ----------------------------- 显示大配图 -----------------------------
     func photoBrowser(n: NSNotification) {
@@ -227,6 +246,8 @@ class HomeTableViewController: BaseTableViewController {
             loadData()
         }
         cell.status = status
+        
+        cell.statusDelegate = self
         
         return cell
     }

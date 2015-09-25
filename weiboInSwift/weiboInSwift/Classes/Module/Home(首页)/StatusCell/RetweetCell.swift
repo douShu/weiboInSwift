@@ -55,12 +55,15 @@ class RetweetCell: StatusCell {
     }
     
     // MARK: - ----------------------------- 懒加载属性 -----------------------------
-    lazy var retweetLabel: UILabel = {
+    lazy var retweetLabel: FFLabel = {
         
-        let l = UILabel(textLabelColor: UIColor.darkGrayColor(), fontSize: 14)
+        let l = FFLabel(textLabelColor: UIColor.darkGrayColor(), fontSize: 14)
         
         l.numberOfLines = 0
         l.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 2 * cellSubviewMargin
+        
+        /// 设置label的代理
+        l.labelDelegate = self
         
         return l
     }()
